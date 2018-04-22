@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * @author onwl007@126.com
  * @date 2018/4/22 20:16
- * @desc
+ * @desc CategoryRepository
+ *
  */
 public interface CategoryRepository extends MongoRepository<Category,String> {
     /**
