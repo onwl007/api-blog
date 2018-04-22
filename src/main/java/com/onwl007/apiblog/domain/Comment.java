@@ -13,7 +13,7 @@ import java.util.Date;
 public class Comment {
 
     @Id
-    private Long id;
+    private String id;
     //创建时间
     private Date createAt;
     //修改时间
@@ -43,11 +43,11 @@ public class Comment {
     //前一条评论ID，可以是parent的id， 比如 B评论 是 A评论的回复，则B.forward._id = A._id，主要是为了查看评论对话时的评论树构建
     private Comment forward;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Id;
 public class Option {
 
     @Id
-    private Long id;
+    private String id;
     private String welcome;
     private String descriprion;
     private String hobby;
@@ -22,11 +22,11 @@ public class Option {
     private OptionLinks links;
     private String musicId;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

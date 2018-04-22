@@ -15,7 +15,7 @@ import java.util.Date;
 public class Article {
 
     @Id
-    private Long id;
+    private String id;
     //文章标题
     private String title;
     //文章关键字 (FOR SEO)
@@ -45,11 +45,11 @@ public class Article {
     //文章元数据 （浏览量，喜欢数，评论数）
     private ArticleMeta meta;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

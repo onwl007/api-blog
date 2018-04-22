@@ -12,7 +12,7 @@ import java.util.Date;
 public class Moment {
 
     @Id
-    private Long id;
+    private String id;
     //内容
     private String content;
     //位置
@@ -24,11 +24,11 @@ public class Moment {
     //修改日期
     private Date updateAt;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

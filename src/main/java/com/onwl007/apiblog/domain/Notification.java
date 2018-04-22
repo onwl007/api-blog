@@ -12,7 +12,7 @@ import java.util.Date;
 public class Notification {
 
     @Id
-    private Long id;
+    private String id;
     //通知类型 0 系统通知 | 1 评论通知 | 2 点赞通知 | 3 用户操作通知
     private int type;
     // 类型细化分类
@@ -27,11 +27,11 @@ public class Notification {
     private Date createAt;
     private Date updateAt;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
