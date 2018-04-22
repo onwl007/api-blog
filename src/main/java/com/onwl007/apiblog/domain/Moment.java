@@ -1,5 +1,7 @@
 package com.onwl007.apiblog.domain;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.Date;
 
 /**
@@ -8,6 +10,9 @@ import java.util.Date;
  * @desc 个人动态
  */
 public class Moment {
+
+    @Id
+    private Long id;
     //内容
     private String content;
     //位置
@@ -18,4 +23,52 @@ public class Moment {
     private Date createAt;
     //修改日期
     private Date updateAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Object getLocation() {
+        return location;
+    }
+
+    public void setLocation(Object location) {
+        this.location = location;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
 }

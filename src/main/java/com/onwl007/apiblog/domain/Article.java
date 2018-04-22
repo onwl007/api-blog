@@ -1,6 +1,9 @@
 package com.onwl007.apiblog.domain;
 
 import com.onwl007.apiblog.vo.ArticleMeta;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 
@@ -10,6 +13,9 @@ import java.util.Date;
  * @desc 文章实体
  */
 public class Article {
+
+    @Id
+    private Long id;
     //文章标题
     private String title;
     //文章关键字 (FOR SEO)
@@ -21,7 +27,7 @@ public class Article {
     //Markdown 渲染后的 HTML 内容
     private String renderedContent;
     //分类
-    private Category category;
+    protected Category category;
     //标签
     private Tag tag;
     //缩略图
@@ -38,4 +44,124 @@ public class Article {
     private Date publishAt;
     //文章元数据 （浏览量，喜欢数，评论数）
     private ArticleMeta meta;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getRenderedContent() {
+        return renderedContent;
+    }
+
+    public void setRenderedContent(String renderedContent) {
+        this.renderedContent = renderedContent;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getPermalink() {
+        return permalink;
+    }
+
+    public void setPermalink(String permalink) {
+        this.permalink = permalink;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public Date getPublishAt() {
+        return publishAt;
+    }
+
+    public void setPublishAt(Date publishAt) {
+        this.publishAt = publishAt;
+    }
+
+    public ArticleMeta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(ArticleMeta meta) {
+        this.meta = meta;
+    }
 }
