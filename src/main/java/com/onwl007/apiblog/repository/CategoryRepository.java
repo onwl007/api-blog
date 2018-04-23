@@ -17,4 +17,10 @@ public interface CategoryRepository extends MongoRepository<Category,String> {
      * @return
      */
     List<Category> findAllByOrderByListAsc();
+
+    /**
+     * 根据分类id查询
+     * @return
+     */
+    Category findCategoryById(String id);
 }
