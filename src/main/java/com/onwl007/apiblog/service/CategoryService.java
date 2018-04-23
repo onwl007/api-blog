@@ -25,4 +25,29 @@ public class CategoryService {
     public List<Category> list(){
         return categoryRepository.findAllByOrderByListAsc();
     }
+
+    /**
+     * 根据分类id查询
+     * @param id
+     * @return
+     */
+    public Category getCategoryById(String id){
+        return categoryRepository.findCategoryById(id);
+    }
+
+    /**
+     * 创建或者更新分类
+     * @param category
+     */
+    public void createCategory(Category category){
+        categoryRepository.save(category);
+    }
+
+    /**
+     * 根据分类id删除
+     * @param id
+     */
+    public void deleteCategory(String id){
+        categoryRepository.deleteById(id);
+    }
 }
