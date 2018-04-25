@@ -9,4 +9,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @desc
  */
 public interface UserRepository extends MongoRepository<User,String> {
+
+    /**
+     * 根据用户id查询用户
+     * @param id
+     * @return
+     */
+    User findUserById(String id);
+
 }
