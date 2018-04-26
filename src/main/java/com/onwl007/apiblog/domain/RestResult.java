@@ -8,11 +8,11 @@ import com.onwl007.apiblog.util.CodeMap;
  * @date 2018/4/26 21:03
  * @desc 返回统一封装的API数据
  */
-public class RestResult<T> {
+public class RestResult {
     private int code;
     private Boolean success;
     private String message;
-    private T data;
+    private Object data;
 
     public RestResult setCodeMap(CodeMap codeMap){
         this.code=codeMap.getCode();
@@ -20,7 +20,7 @@ public class RestResult<T> {
         return this;
     }
 
-    public RestResult setData(T data){
+    public RestResult setData(Object data){
         this.data=data;
         return this;
     }
@@ -42,7 +42,7 @@ public class RestResult<T> {
         return message;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 }
