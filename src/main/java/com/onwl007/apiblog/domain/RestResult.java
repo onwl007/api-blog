@@ -14,9 +14,20 @@ public class RestResult {
     private String message;
     private Object data;
 
+
     public RestResult setCodeMap(CodeMap codeMap){
         this.code=codeMap.getCode();
         this.message=codeMap.getMessage();
+        return this;
+    }
+
+    public RestResult setCode(CodeMap codeMap){
+        this.code=codeMap.getCode();
+        return this;
+    }
+
+    public RestResult setMessage(String message){
+        this.message=message;
         return this;
     }
 
