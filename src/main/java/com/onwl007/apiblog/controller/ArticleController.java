@@ -3,12 +3,14 @@ package com.onwl007.apiblog.controller;
 import com.onwl007.apiblog.domain.Article;
 import com.onwl007.apiblog.domain.RestResult;
 import com.onwl007.apiblog.service.ArticleService;
+import com.onwl007.apiblog.util.CodeMap;
 import com.onwl007.apiblog.util.ResultGenerator;
+import com.onwl007.apiblog.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -26,6 +28,10 @@ public class ArticleController {
     @Autowired
     ResultGenerator generator;
 
+    /**
+     * 文章列表
+     * @return
+     */
     @GetMapping
     public RestResult listArticles(){
         List<Article> articles=articleService.listArticles();
@@ -34,5 +40,25 @@ public class ArticleController {
         }
         return generator.getFailResult();
     }
+
+    /**
+     * 文章详情
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public RestResult getArticleItemById(@PathVariable("id") String id) throws ServiceException{
+        if (id.equals("null")){
+            throw new ServiceException("参数错误");
+        }
+        Article article=articleService.getArticleById(id);
+        if (article!=null){
+            return generator.getSuccessResult("文章详情获取成功",article);
+        }
+        return generator.getCodeMapFailResult(CodeMap.REQUEST_FAIL,article);
+    }
+
+    //@GetMapping("/{id}/like")
+    //public RestResult addArticleLike(){}
 
 }
