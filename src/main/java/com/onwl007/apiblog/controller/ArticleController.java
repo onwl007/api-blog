@@ -7,10 +7,15 @@ import com.onwl007.apiblog.util.CodeMap;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -30,35 +35,72 @@ public class ArticleController {
 
     /**
      * 文章列表
+     *
      * @return
      */
     @GetMapping
-    public RestResult listArticles(){
-        List<Article> articles=articleService.listArticles();
-        if (articles!=null&&articles.size()>0){
-            return generator.getSuccessResult("获取文章列表成功",articles);
+    public RestResult listArticles() {
+        List<Article> articles = articleService.listArticles();
+        if (articles != null && articles.size() > 0) {
+            return generator.getSuccessResult("获取文章列表成功", articles);
         }
         return generator.getFailResult();
     }
 
     /**
      * 文章详情
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
-    public RestResult getArticleItemById(@PathVariable("id") String id) throws ServiceException{
-        if (id.equals("null")){
+    public RestResult getArticleItemById(@PathVariable("id") String id) throws ServiceException {
+        if (id.equals("null")) {
             throw new ServiceException("参数错误");
         }
-        Article article=articleService.getArticleById(id);
-        if (article!=null){
-            return generator.getSuccessResult("文章详情获取成功",article);
+        Article article = articleService.getArticleById(id);
+        if (article != null) {
+            return generator.getSuccessResult("文章详情获取成功", article);
         }
-        return generator.getCodeMapFailResult(CodeMap.REQUEST_FAIL,article);
+        return generator.getCodeMapFailResult(CodeMap.REQUEST_FAIL, article);
     }
 
-    //@GetMapping("/{id}/like")
-    //public RestResult addArticleLike(){}
+
+    @RequestMapping(value = "/{id}/like", method = {RequestMethod.POST, RequestMethod.OPTIONS})
+    public RestResult addArticleLike(@RequestBody String like, @PathVariable("id") String id, HttpServletRequest request) {
+        String method = request.getMethod();
+        if (method.equals("POST")) {
+            Article article = articleService.getArticleById(id);
+            int ups = article.getMeta().getUps();
+            article.getMeta().setUps(ups + 1);
+            articleService.createArticle(article);
+            return generator.getSuccessResult("文章点赞成功", null);
+        } else {
+            Article article = articleService.getArticleById(id);
+            if (article != null) {
+                return generator.getSuccessResult(null);
+            }
+        }
+        return generator.getFailResult();
+    }
+
+    /**
+     * 查询热门文章
+     * @return
+     */
+    @GetMapping("/hot")
+    public RestResult getArticleHot() {
+        Sort sort = new Sort(Sort.Direction.DESC, "meta.comments", "meta.ups", "meta.pvs");
+        List<Article> articles=articleService.listHotArticle(sort);
+        if (articles!=null && articles.size()>0){
+            return generator.getSuccessResult("获取热门文章成功",articles);
+        }
+        return generator.getFailResult();
+    }
+
+    @GetMapping("/archives")
+    public RestResult getArticleArchives(){
+        return generator.getFailResult();
+    }
 
 }
