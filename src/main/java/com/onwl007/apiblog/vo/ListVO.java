@@ -10,9 +10,9 @@ import java.util.List;
 public class ListVO {
 
     private int year;
-    private List<ListVO> list;
+    private List<MonthsVO> list;
 
-    public ListVO(int year, List<ListVO> list) {
+    public ListVO(int year, List<MonthsVO> list) {
         this.year = year;
         this.list = list;
     }
@@ -25,11 +25,11 @@ public class ListVO {
         this.year = year;
     }
 
-    public List<ListVO> getList() {
+    public List<MonthsVO> getList() {
         return list;
     }
 
-    public void setList(List<ListVO> list) {
+    public void setList(List<MonthsVO> list) {
         this.list = list;
     }
 }
