@@ -17,4 +17,11 @@ public interface UserRepository extends MongoRepository<User,String> {
      */
     User findUserById(String id);
 
+    /**
+     * 查询管理员
+     * @param role
+     * @return
+     */
+    User findUserByRole(int role);
+
 }

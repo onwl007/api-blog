@@ -36,6 +36,15 @@ public class UserService {
     }
 
     /**
+     * 查询管理员
+     * @param role
+     * @return
+     */
+    public User getUserByRole(int role){
+        return userRepository.findUserByRole(role);
+    }
+
+    /**
      * 更新或保存用户
      * @param user
      */

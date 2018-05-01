@@ -1,8 +1,11 @@
 package com.onwl007.apiblog.service;
 
+import com.onwl007.apiblog.domain.Comment;
 import com.onwl007.apiblog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author onwl007@126.com
@@ -14,4 +17,32 @@ public class CommentService {
 
     @Autowired
     CommentRepository commentRepository;
+
+    /**
+     * 查询全部评论
+     *
+     * @return
+     */
+    public List<Comment> getCommentAll() {
+        return commentRepository.findAll();
+    }
+
+    /**
+     * 根据id查询评论
+     *
+     * @param id
+     * @return
+     */
+    public Comment getCommentById(String id) {
+        return commentRepository.findCommentById(id);
+    }
+
+    /**
+     * 创建或保存评论
+     *
+     * @param comment
+     */
+    public void createComment(Comment comment) {
+        commentRepository.save(comment);
+    }
 }

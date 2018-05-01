@@ -22,7 +22,7 @@ public class CategoryService {
      * 查询所有分类并根据list升序排列
      * @return
      */
-    public List<Category> list(){
+    public List<Category> listCategory(){
         return categoryRepository.findAllByOrderByListAsc();
     }
 
