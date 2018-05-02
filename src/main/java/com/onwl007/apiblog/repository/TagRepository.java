@@ -10,18 +10,28 @@ import java.util.List;
  * @date 2018/4/23 21:36
  * @desc
  */
-public interface TagRepository extends MongoRepository<Tag,String>{
+public interface TagRepository extends MongoRepository<Tag, String> {
 
     /**
      * 根据创建时间降序排列
+     *
      * @return
      */
     List<Tag> findAllByOrderByCreateAtDesc();
 
     /**
      * 根据标签id查询
+     *
      * @param id
      * @return
      */
     Tag findTagById(String id);
+
+    /**
+     * 根据标签的名称查询
+     *
+     * @param name
+     * @return
+     */
+    Tag findTagByName(String name);
 }
