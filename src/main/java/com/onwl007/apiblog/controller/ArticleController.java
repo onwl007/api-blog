@@ -85,9 +85,9 @@ public class ArticleController {
             return generator.getSuccessResult("查询文章列表成功", articlePage);
         }
 
-        List<Article> articles = articleService.listArticles();
-        if (articles != null && articles.size() > 0) {
-            return generator.getSuccessResult("文章类别获取成功", articles);
+        articlePage = articleService.pageArticles(pageable);
+        if (articlePage != null) {
+            return generator.getSuccessResult("文章类别获取成功", articlePage);
         }
 
         return generator.getFailResult("文章列表获取失败", articlePage);
