@@ -50,31 +50,22 @@ public class ArticleController {
      *
      * @return
      */
-    //@GetMapping
-    //public RestResult listArticles() {
-    //    List<Article> articles = articleService.listArticles();
-    //    if (articles != null && articles.size() > 0) {
-    //        return generator.getSuccessResult("获取文章列表成功", articles);
-    //    }
-    //    return generator.getFailResult();
-    //}
     @GetMapping
-    public RestResult articleList(@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-                                  @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                  @RequestParam(value = "state", required = false) int state,
-                                  @RequestParam(value = "category", required = false) String category,
-                                  @RequestParam(value = "tag", required = false) String tag,
-                                  @RequestParam(value = "keyword", required = false) String keyword,
-                                  @RequestParam(value = "isempty", required = true, defaultValue = "true") boolean isEmpty) {
+    public RestResult listArticles(@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                   @RequestParam(value = "state", required = false) Integer state,
+                                   @RequestParam(value = "category", required = false) String category,
+                                   @RequestParam(value = "tag", required = false) String tag,
+                                   @RequestParam(value = "keyword", required = false) String keyword) {
         Page<Article> articlePage = null;
         Pageable pageable = new PageRequest(page, pageSize);
 
-        if (keyword != null || !keyword.equals("")) {
+        if (keyword != null && !keyword.equals("")) {
             articlePage = articleService.getArticleByTitleLike(keyword, pageable);
             return generator.getSuccessResult("文章类别获取成功", articlePage);
         }
 
-        if (tag != null || !tag.equals("")) {
+        if (tag != null && !tag.equals("")) {
             if (mongoUtil.isValidObjectId(tag)) {
                 articlePage = articleService.getArticleByTagId(tag, pageable);
             } else {
@@ -84,7 +75,7 @@ public class ArticleController {
             return generator.getSuccessResult("文章列表获取成功", articlePage);
         }
 
-        if (category != null || !category.equals("")) {
+        if (category != null && !category.equals("")) {
             if (mongoUtil.isValidObjectId(category)) {
                 articlePage = articleService.getArticleByCategoryId(category, pageable);
             } else {
