@@ -9,18 +9,27 @@ import java.util.List;
  * @author onwl007@126.com
  * @date 2018/4/22 20:16
  * @desc CategoryRepository
- *
  */
-public interface CategoryRepository extends MongoRepository<Category,String> {
+public interface CategoryRepository extends MongoRepository<Category, String> {
     /**
      * 根据list升序排列
+     *
      * @return
      */
     List<Category> findAllByOrderByListAsc();
 
     /**
      * 根据分类id查询
+     *
      * @return
      */
     Category findCategoryById(String id);
+
+    /**
+     * 根据分类查询分类
+     *
+     * @param name
+     * @return
+     */
+    Category findCategoryByName(String name);
 }
