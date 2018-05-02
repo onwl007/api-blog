@@ -2,10 +2,8 @@ package com.onwl007.apiblog.domain;
 
 import com.onwl007.apiblog.mongodbconfig.CascadeSave;
 import com.onwl007.apiblog.vo.ArticleMeta;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 
@@ -31,7 +29,7 @@ public class Article {
     //分类
     @DBRef
     @CascadeSave
-    protected Category category;
+    private Category category;
     //标签
     @DBRef
     @CascadeSave

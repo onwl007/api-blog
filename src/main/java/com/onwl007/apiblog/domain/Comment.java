@@ -1,7 +1,9 @@
 package com.onwl007.apiblog.domain;
 
+import com.onwl007.apiblog.mongodbconfig.CascadeSave;
 import com.onwl007.apiblog.vo.CommentMeta;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Date;
 
@@ -27,6 +29,8 @@ public class Comment {
     //Akismet判定是否是垃圾评论，方便后台check
     private Boolean spam;
     //用户
+    @DBRef
+    @CascadeSave
     private User author;
     //点赞数
     private int ups;

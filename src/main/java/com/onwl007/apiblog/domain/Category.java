@@ -1,7 +1,9 @@
 package com.onwl007.apiblog.domain;
 
+import com.onwl007.apiblog.mongodbconfig.CascadeSave;
 import com.onwl007.apiblog.vo.Extend;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Date;
 
@@ -19,6 +21,8 @@ public class Category {
     private Date createAt;
     private Date updateAt;
     private int list;
+    @DBRef
+    @CascadeSave
     private Extend extend;
 
     public String getId() {
