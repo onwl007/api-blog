@@ -1,6 +1,5 @@
 package com.onwl007.apiblog.controller;
 
-import com.mongodb.Mongo;
 import com.onwl007.apiblog.domain.Article;
 import com.onwl007.apiblog.domain.RestResult;
 import com.onwl007.apiblog.service.ArticleService;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
