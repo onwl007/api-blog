@@ -56,6 +56,17 @@ public class ArticleService {
     }
 
     /**
+     * 对文章标题进行模糊查询
+     *
+     * @param key
+     * @param pageable
+     * @return
+     */
+    public Page<Article> getArticleByTitleLike(String key, Pageable pageable) {
+        return articleRepository.findArticleByTitleLike(key, pageable);
+    }
+
+    /**
      * 查询关联同一个标签下的所有文章
      *
      * @param id

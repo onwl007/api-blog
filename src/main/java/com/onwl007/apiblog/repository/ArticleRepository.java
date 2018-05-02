@@ -46,12 +46,28 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     Article findByTitle(String title);
 
     /**
+     * 对文章标题进行模糊查询
+     *
+     * @param key
+     * @param pageable
+     * @return
+     */
+    Page<Article> findArticleByTitleLike(String key, Pageable pageable);
+
+    /**
      * 查询关联了同一个标签的所有的文章
      *
      * @param id
      * @return
      */
-    Page<Article> findAllByTag_Id(String id,Pageable pageable);
+    Page<Article> findAllByTag_Id(String id, Pageable pageable);
 
-    Page<Article> findAllByCategory_Id(String id,Pageable pageable );
+    /**
+     * 查询关联了同一个分类下的所有文章
+     *
+     * @param id
+     * @param pageable
+     * @return
+     */
+    Page<Article> findAllByCategory_Id(String id, Pageable pageable);
 }
