@@ -40,6 +40,28 @@ public class CommentService {
     }
 
     /**
+     * 查询该用户下的评论
+     *
+     * @param id
+     * @param pageable
+     * @return
+     */
+    public Page<Comment> getCommentByAuthorId(String id, Pageable pageable) {
+        return commentRepository.findAllByAuthor_Id(id, pageable);
+    }
+
+    /**
+     * 根据文章id查询该下面的评论
+     *
+     * @param id
+     * @param pageable
+     * @return
+     */
+    public Page<Comment> getCommentByArticleId(String id, Pageable pageable) {
+        return commentRepository.findAllByArticle_Id(id, pageable);
+    }
+
+    /**
      * 根据关键字模糊查询内容
      *
      * @param keyword
