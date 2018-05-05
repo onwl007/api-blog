@@ -2,6 +2,8 @@ package com.onwl007.apiblog.controller;
 
 import com.onwl007.apiblog.domain.Article;
 import com.onwl007.apiblog.domain.RestResult;
+import com.onwl007.apiblog.page.ArticlePagination;
+import com.onwl007.apiblog.page.Pagination;
 import com.onwl007.apiblog.service.ArticleService;
 import com.onwl007.apiblog.service.CategoryService;
 import com.onwl007.apiblog.service.TagService;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +27,7 @@ import java.util.List;
  * @date 2018/4/26 20:31
  * @desc
  */
+@CrossOrigin
 @RestController
 @RequestMapping("articles")
 public class ArticleController {
@@ -49,18 +53,20 @@ public class ArticleController {
      * @return
      */
     @GetMapping
-    public RestResult listArticles(@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+    public RestResult listArticles(@RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize,
+                                   @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                    @RequestParam(value = "state", required = false) Integer state,
                                    @RequestParam(value = "category", required = false) String category,
                                    @RequestParam(value = "tag", required = false) String tag,
                                    @RequestParam(value = "keyword", required = false) String keyword) {
         Page<Article> articlePage = null;
-        Pageable pageable = new PageRequest(page, pageSize);
+        Pageable pageable = new PageRequest(page - 1, pageSize);
 
         if (keyword != null && !keyword.equals("")) {
             articlePage = articleService.getArticleByTitleLike(keyword, pageable);
-            return generator.getSuccessResult("文章类别获取成功", articlePage);
+            Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
+            ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
+            return generator.getSuccessResult("文章类别获取成功", articlePagination);
         }
 
         if (tag != null && !tag.equals("")) {
@@ -70,7 +76,10 @@ public class ArticleController {
                 String tagId = tagService.getTagByName(tag).getId();
                 articlePage = articleService.getArticleByTagId(tagId, pageable);
             }
-            return generator.getSuccessResult("文章列表获取成功", articlePage);
+
+            Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
+            ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
+            return generator.getSuccessResult("文章列表获取成功", articlePagination);
         }
 
         if (category != null && !category.equals("")) {
@@ -80,12 +89,17 @@ public class ArticleController {
                 String categoryId = categoryService.getCategortByName(category).getId();
                 articlePage = articleService.getArticleByCategoryId(categoryId, pageable);
             }
-            return generator.getSuccessResult("查询文章列表成功", articlePage);
+
+            Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
+            ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
+            return generator.getSuccessResult("查询文章列表成功", articlePagination);
         }
 
-        articlePage = articleService.pageArticles(pageable);
-        if (articlePage != null) {
-            return generator.getSuccessResult("文章类别获取成功", articlePage);
+        if (tag == null && category == null && keyword == null) {
+            articlePage = articleService.pageArticles(pageable);
+            Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
+            ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
+            return generator.getSuccessResult("文章类别获取成功", articlePagination);
         }
 
         return generator.getFailResult("文章列表获取失败", articlePage);
@@ -137,8 +151,9 @@ public class ArticleController {
     public RestResult getArticleHot() {
         Sort sort = new Sort(Sort.Direction.DESC, "meta.comments", "meta.ups", "meta.pvs");
         List<Article> articles = articleService.listHotArticle(sort);
+        ArticlePagination articlePagination = new ArticlePagination(articles, null);
         if (articles != null && articles.size() > 0) {
-            return generator.getSuccessResult("获取热门文章成功", articles);
+            return generator.getSuccessResult("获取热门文章成功", articlePagination);
         }
         return generator.getFailResult();
     }
