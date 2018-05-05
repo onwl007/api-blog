@@ -3,6 +3,8 @@ package com.onwl007.apiblog.service;
 import com.onwl007.apiblog.domain.Comment;
 import com.onwl007.apiblog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,17 @@ public class CommentService {
      */
     public Comment getCommentById(String id) {
         return commentRepository.findCommentById(id);
+    }
+
+    /**
+     * 根据关键字模糊查询内容
+     *
+     * @param keyword
+     * @param pageable
+     * @return
+     */
+    public Page<Comment> getCommentByContentLike(String keyword, Pageable pageable) {
+        return commentRepository.findCommentByContentLike(keyword, pageable);
     }
 
     /**
