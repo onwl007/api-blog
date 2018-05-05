@@ -2,9 +2,19 @@ package com.onwl007.apiblog.controller;
 
 import com.onwl007.apiblog.domain.Comment;
 import com.onwl007.apiblog.domain.RestResult;
+import com.onwl007.apiblog.page.CommentPagination;
+import com.onwl007.apiblog.page.Pagination;
+import com.onwl007.apiblog.repository.ArticleRepository;
+import com.onwl007.apiblog.service.ArticleService;
 import com.onwl007.apiblog.service.CommentService;
+import com.onwl007.apiblog.service.UserService;
+import com.onwl007.apiblog.util.MongoUtil;
 import com.onwl007.apiblog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +32,30 @@ public class CommentController {
     private CommentService commentService;
 
     @Autowired
-    public ResultGenerator generator;
+    private UserService userService;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
+    @Autowired
+    private ResultGenerator generator;
+
+    @Autowired
+    private MongoUtil mongoUtil;
+
+    /**
+     * 获取全部评论
+     *
+     * @return
+     */
+    //@GetMapping
+    //public RestResult listComments() {
+    //    List<Comment> list = commentService.getCommentAll();
+    //    if (list != null && list.size() > 0) {
+    //        return generator.getSuccessResult("评论列表获取成功", list);
+    //    }
+    //    return generator.getFailResult("评论列表获取失败", list);
+    //}
 
     /**
      * 获取全部评论
@@ -30,12 +63,49 @@ public class CommentController {
      * @return
      */
     @GetMapping
-    public RestResult listComments() {
-        List<Comment> list = commentService.getCommentAll();
-        if (list != null && list.size() > 0) {
-            return generator.getSuccessResult("评论列表获取成功", list);
+    public RestResult listComments(@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                   @RequestParam(value = "state", required = false) Integer state,
+                                   @RequestParam(value = "type", required = false) Integer type,
+                                   @RequestParam(value = "author", required = false) String author,
+                                   @RequestParam(value = "article", required = false) String article,
+                                   @RequestParam(value = "keyword", required = false) String keyword,
+                                   @RequestParam(value = "parent", required = false) String parent,
+                                   @RequestParam(value = "order", required = false, defaultValue = "-1") String order,
+                                   @RequestParam(value = "sortBy", required = false, defaultValue = "createAt") String sortBy) {
+        Page<Comment> commentPage = null;
+        Sort sort = new Sort(order.equals("-1") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy);
+        Pageable pageable = new PageRequest(page - 1, pageSize, sort);
+        if (keyword != null && !keyword.equals("")) {
+            commentPage = commentService.getCommentByContentLike(keyword, pageable);
+            return generator.getSuccessResult("评论列表获取成功", commentPage);
         }
-        return generator.getFailResult("评论列表获取失败", list);
+
+        if (author != null && !author.equals("")) {
+            if (mongoUtil.isValidObjectId(author)) {
+                commentPage = commentService.getCommentByAuthorId(author, pageable);
+            } else {
+                String authorId = userService.getUserByName(author).getId();
+                commentPage = commentService.getCommentByAuthorId(authorId, pageable);
+            }
+            Pagination pagination = new Pagination(commentPage.getTotalElements(), commentPage.getNumber() + 1, commentPage.getTotalPages(), commentPage.getSize());
+            CommentPagination commentPagination = new CommentPagination(commentPage.getContent(), pagination);
+            return generator.getSuccessResult("评论列表获取成功", commentPagination);
+        }
+
+        if (article != null && !article.equals("")) {
+            if (mongoUtil.isValidObjectId(article)) {
+                commentPage = commentService.getCommentByArticleId(article, pageable);
+            } else {
+                String articleId = articleRepository.findByTitle(article).getId();
+                commentPage = commentService.getCommentByArticleId(articleId, pageable);
+            }
+            Pagination pagination = new Pagination(commentPage.getTotalElements(), commentPage.getNumber() + 1, commentPage.getTotalPages(), commentPage.getSize());
+            CommentPagination commentPagination = new CommentPagination(commentPage.getContent(), pagination);
+            return generator.getSuccessResult("评论列表获取成功", commentPagination);
+        }
+
+        return generator.getFailResult("评论列表获取失败", commentPage);
     }
 
     /**
