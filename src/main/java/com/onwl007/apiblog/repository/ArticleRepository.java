@@ -23,7 +23,7 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
      * @return
      */
     Page<Article> findAll(Pageable pageable);
-    
+
     /**
      * 根据创建时间降序排列
      *
@@ -71,4 +71,13 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
      * @return
      */
     Page<Article> findAllByCategory_Id(String id, Pageable pageable);
+
+    /**
+     * 根据文章标题查询文章
+     *
+     * @param title
+     * @param pageable
+     * @return
+     */
+    Page<Article> findArticleByTitle(String title, Pageable pageable);
 }
