@@ -20,43 +20,58 @@ public class UserService {
 
     /**
      * 查询所有用户
+     *
      * @return
      */
-    public List<User> listUsers(){
+    public List<User> listUsers() {
         return userRepository.findAll();
     }
 
     /**
      * 根据用户id查询
+     *
      * @param id
      * @return
      */
-    public User getUserById(String id){
+    public User getUserById(String id) {
         return userRepository.findUserById(id);
     }
 
     /**
+     * 根据用户名称查询
+     *
+     * @param name
+     * @return
+     */
+    public User getUserByName(String name) {
+        return userRepository.findUserByName(name);
+    }
+
+    /**
      * 查询管理员
+     *
      * @param role
      * @return
      */
-    public User getUserByRole(int role){
+    public User getUserByRole(int role) {
         return userRepository.findUserByRole(role);
     }
 
     /**
      * 更新或保存用户
+     *
      * @param user
      */
-    public void updateUser(User user){
+    public void updateUser(User user) {
         userRepository.save(user);
     }
 
     /**
      * 根据id删除用户
+     *
      * @param id
      */
-    public void deleteUser(String id){
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
 }
