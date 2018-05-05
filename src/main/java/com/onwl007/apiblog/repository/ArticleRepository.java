@@ -2,6 +2,7 @@ package com.onwl007.apiblog.repository;
 
 
 import com.onwl007.apiblog.domain.Article;
+import com.onwl007.apiblog.page.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -22,7 +23,7 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
      * @return
      */
     Page<Article> findAll(Pageable pageable);
-
+    
     /**
      * 根据创建时间降序排列
      *
