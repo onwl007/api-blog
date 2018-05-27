@@ -1,9 +1,6 @@
 package com.onwl007.apiblog;
 
-import com.onwl007.apiblog.domain.Article;
-import com.onwl007.apiblog.domain.Category;
-import com.onwl007.apiblog.domain.Tag;
-import com.onwl007.apiblog.domain.User;
+import com.onwl007.apiblog.domain.*;
 import com.onwl007.apiblog.repository.*;
 import com.onwl007.apiblog.vo.ArticleMeta;
 import com.onwl007.apiblog.vo.Github;
@@ -158,6 +155,13 @@ public class SaveData {
         tag1.setDescription("Java");
         tagRepository.save(tag);
         tagRepository.save(tag1);
+    }
+
+    @Test
+    public void testSaveComment(){
+        Comment comment=new Comment();
+        comment.setContent("王先森你真帅 \uD83D\uDE0E \uD83D\uDE0E \uD83D\uDE0E");
+        commentRepository.save(comment);
     }
 
     @Test
