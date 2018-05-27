@@ -24,6 +24,7 @@ import java.util.List;
  * @date 2018/5/1 14:46
  * @desc
  */
+@CrossOrigin
 @RestController
 @RequestMapping("comments")
 public class CommentController {
@@ -42,20 +43,6 @@ public class CommentController {
 
     @Autowired
     private MongoUtil mongoUtil;
-
-    /**
-     * 获取全部评论
-     *
-     * @return
-     */
-    //@GetMapping
-    //public RestResult listComments() {
-    //    List<Comment> list = commentService.getCommentAll();
-    //    if (list != null && list.size() > 0) {
-    //        return generator.getSuccessResult("评论列表获取成功", list);
-    //    }
-    //    return generator.getFailResult("评论列表获取失败", list);
-    //}
 
     /**
      * 获取全部评论
