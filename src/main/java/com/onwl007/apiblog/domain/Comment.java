@@ -41,10 +41,16 @@ public class Comment {
     //评论元数据
     private CommentMeta meta;
     //type为0时此项存在
+    @DBRef
+    @CascadeSave
     private Article article;
     //父评论 parent和forward必须同时存在
+    @DBRef
+    @CascadeSave
     private Comment parent;
     //前一条评论ID，可以是parent的id， 比如 B评论 是 A评论的回复，则B.forward._id = A._id，主要是为了查看评论对话时的评论树构建
+    @DBRef
+    @CascadeSave
     private Comment forward;
 
     public String getId() {
