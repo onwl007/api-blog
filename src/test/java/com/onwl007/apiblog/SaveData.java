@@ -3,6 +3,7 @@ package com.onwl007.apiblog;
 import com.onwl007.apiblog.domain.*;
 import com.onwl007.apiblog.repository.*;
 import com.onwl007.apiblog.vo.ArticleMeta;
+import com.onwl007.apiblog.vo.CommentMeta;
 import com.onwl007.apiblog.vo.Github;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -161,7 +162,66 @@ public class SaveData {
     public void testSaveComment(){
         Comment comment=new Comment();
         comment.setContent("王先森你真帅 \uD83D\uDE0E \uD83D\uDE0E \uD83D\uDE0E");
+        Article article=articleRepository.findByTitle("【深入理解 JVM】之内存区域");
+        User user=userRepository.findUserByName("Jooger");
+        comment.setArticle(article);
+        comment.setAuthor(user);
+        comment.setRenderedContent("<p>王先森你真帅 \uD83D\uDE0E \uD83D\uDE0E \uD83D\uDE0E</p>\n");
+        CommentMeta meta=new CommentMeta();
+        meta.setIp("172.17.0.1");
+        meta.setUa("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36");
+        meta.setReferer("http://localhost:3000/article/5b081d9880194752234103bb");
+        comment.setMeta(meta);
+        comment.setType(0);
+        comment.setSticky(0);
+        comment.setUps(0);
+        comment.setSpam(false);
+        comment.setState(1);
+        comment.setUpdateAt(new Date());
+        comment.setCreateAt(new Date());
         commentRepository.save(comment);
+
+        Comment comment1=new Comment();
+        comment1.setContent("一般帅吧");
+        comment1.setArticle(article);
+        comment1.setAuthor(user);
+        comment1.setParent(comment);
+        comment1.setForward(comment);
+        comment1.setRenderedContent("<p>一般帅吧</p>\n");
+        CommentMeta meta1=new CommentMeta();
+        meta1.setIp("172.17.0.1");
+        meta1.setUa("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36");
+        meta1.setReferer("http://localhost:3000/article/5b081d9880194752234103bb");
+        comment1.setMeta(meta1);
+        comment1.setType(0);
+        comment1.setSticky(0);
+        comment1.setUps(0);
+        comment1.setSpam(false);
+        comment1.setState(1);
+        comment1.setUpdateAt(new Date());
+        comment1.setCreateAt(new Date());
+        commentRepository.save(comment1);
+
+        Comment comment2=new Comment();
+        comment2.setContent("皮");
+        comment2.setArticle(article);
+        comment2.setAuthor(user);
+        comment2.setParent(comment);
+        comment2.setForward(comment);
+        comment2.setRenderedContent("<p>皮</p>\n");
+        CommentMeta meta2=new CommentMeta();
+        meta2.setIp("172.17.0.1");
+        meta2.setUa("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36");
+        meta2.setReferer("http://localhost:3000/article/5b081d9880194752234103bb");
+        comment2.setMeta(meta2);
+        comment2.setType(0);
+        comment2.setSticky(0);
+        comment2.setUps(0);
+        comment2.setSpam(false);
+        comment2.setState(1);
+        comment2.setUpdateAt(new Date());
+        comment2.setCreateAt(new Date());
+        commentRepository.save(comment2);
     }
 
     @Test
