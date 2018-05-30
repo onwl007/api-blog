@@ -11,6 +11,7 @@ import com.onwl007.apiblog.util.CodeMap;
 import com.onwl007.apiblog.util.MongoUtil;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.util.ServiceException;
+import com.onwl007.apiblog.vo.ArticleMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -117,6 +118,11 @@ public class ArticleController {
             throw new ServiceException("参数错误");
         }
         Article article = articleService.getArticleById(id);
+        ArticleMeta meta=article.getMeta();
+        int pvs=meta.getPvs()+1;
+        meta.setPvs(pvs);
+        article.setMeta(meta);
+        articleService.createArticle(article);
         if (article != null) {
             return generator.getSuccessResult("文章详情获取成功", article);
         }
