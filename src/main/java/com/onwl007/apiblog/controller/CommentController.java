@@ -11,9 +11,12 @@ import com.onwl007.apiblog.repository.ArticleRepository;
 import com.onwl007.apiblog.service.ArticleService;
 import com.onwl007.apiblog.service.CommentService;
 import com.onwl007.apiblog.service.UserService;
+import com.onwl007.apiblog.util.CheckUser;
+import com.onwl007.apiblog.util.IPLocation;
 import com.onwl007.apiblog.util.MongoUtil;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.vo.ArticleMeta;
+import com.onwl007.apiblog.vo.CommentMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,6 +53,10 @@ public class CommentController {
 
     @Autowired
     private MongoUtil mongoUtil;
+
+    @Autowired
+    private CheckUser checkUser;
+
 
     /**
      * 获取全部评论
@@ -123,7 +131,10 @@ public class CommentController {
      * @return
      */
     @PostMapping
-    public RestResult publishComment(@RequestBody Map<String, Object> map) {
+    public RestResult publishComment(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+        String ip = request.getRemoteAddr();
+        IPLocation ipLocation = new IPLocation();
+        String location = ipLocation.getLocation(ip);
         int type = (int) map.get("type");
         boolean isTrusted = (boolean) map.get("isTrusted");
         String content = map.get("content").toString();
@@ -131,25 +142,36 @@ public class CommentController {
         String name = author.get("name").toString();
         String email = author.get("email").toString();
         String site = author.get("site").toString();
-        String articleId = (String) map.get("article");
+        String articleId = map.get("article") == null ? "" : map.get("article").toString();
         String parent = map.get("parent") == null ? "" : map.get("parent").toString();
         String forward = map.get("forward") == null ? "" : map.get("forward").toString();
+        Article article = articleRepository.findArticleById(articleId);
         Comment comment = new Comment();
         User user = new User();
-        Article article=articleRepository.findArticleById(articleId) ;
         user.setName(name);
         user.setEmail(email);
         user.setSite(site);
+        boolean isExisted = checkUser.checkAuthor(user);
+        if (isExisted) {
+            comment.setAuthor(userService.getUserByName(user.getName()));
+        } else {
+            comment.setAuthor(user);
+        }
         if (isTrusted) {
             comment.setType(type);
-            if (type==0){
-                ArticleMeta meta=article.getMeta();
-                meta.setComments(meta.getComments()+1);
+            if (type == 0) {
+                ArticleMeta meta = article.getMeta();
+                meta.setComments(meta.getComments() + 1);
                 article.setMeta(meta);
             }
+            CommentMeta commentMeta = new CommentMeta();
+            commentMeta.setIp(ip);
+            commentMeta.setLocation(location);
+            commentMeta.setUa(request.getHeader("User-Agent"));
+            commentMeta.setReferer(request.getHeader("Referer"));
+            comment.setMeta(commentMeta);
             comment.setContent(content);
-            comment.setRenderedContent("<p>"+content+"</p>");
-            comment.setAuthor(user);
+            comment.setRenderedContent("<p>" + content + "</p>");
             comment.setArticle(article);
             comment.setParent(commentService.getCommentById(parent));
             comment.setForward(commentService.getCommentById(forward));
