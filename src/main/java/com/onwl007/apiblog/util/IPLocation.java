@@ -19,7 +19,7 @@ public class IPLocation {
         URL url = null;
         HttpURLConnection connection = null;
         try {
-            url = new URL(ip);
+            url = new URL("http://ip.taobao.com/service/getIpInfo.php?ip="+ip);
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(2000);
             connection.setReadTimeout(2000);
@@ -35,7 +35,7 @@ public class IPLocation {
             }
             reader.close();
             JsonObject data=new JsonParser().parse(buffer.toString()).getAsJsonObject().getAsJsonObject("data");
-            return data.getAsJsonObject("region")+" "+data.getAsJsonObject("city");
+            return data.get("region").getAsString()+" "+data.get("city").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
