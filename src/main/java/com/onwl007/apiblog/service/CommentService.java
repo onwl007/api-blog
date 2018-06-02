@@ -58,7 +58,7 @@ public class CommentService {
      * @return
      */
     public Page<Comment> getCommentByArticleId(String id, Pageable pageable) {
-        return commentRepository.findAllByArticle_Id(id, pageable);
+        return commentRepository.findAllByArticle_IdAndParentIsNull(id, pageable);
     }
 
     /**
@@ -79,5 +79,27 @@ public class CommentService {
      */
     public void createComment(Comment comment) {
         commentRepository.save(comment);
+    }
+
+    /**
+     * 获取该评论的子评论
+     *
+     * @param id
+     * @param pageable
+     * @return
+     */
+    public Page<Comment> getCommentByParent(String id, Pageable pageable) {
+        return commentRepository.findAllByParent_Id(id, pageable);
+    }
+
+    /**
+     * 查询所有留言
+     *
+     * @param type
+     * @param pageable
+     * @return
+     */
+    public Page<Comment> getCommentByType(int type, Pageable pageable) {
+        return commentRepository.findAllByType(type, pageable);
     }
 }
