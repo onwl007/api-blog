@@ -73,13 +73,27 @@ public class CommentController {
                                    @RequestParam(value = "keyword", required = false) String keyword,
                                    @RequestParam(value = "parent", required = false) String parent,
                                    @RequestParam(value = "order", required = false, defaultValue = "-1") String order,
-                                   @RequestParam(value = "sortBy", required = false, defaultValue = "createAt") String sortBy) {
+                                   @RequestParam(value = "sort_by", required = false) String sortBy) {
         Page<Comment> commentPage = null;
         Sort sort = new Sort(order.equals("-1") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy);
         Pageable pageable = new PageRequest(page - 1, pageSize, sort);
         if (keyword != null && !keyword.equals("")) {
             commentPage = commentService.getCommentByContentLike(keyword, pageable);
             return generator.getSuccessResult("评论列表获取成功", commentPage);
+        }
+
+        if (type != null && type == 0) {
+            commentPage = commentService.getCommentByArticleId(article, pageable);
+            Pagination pagination = new Pagination(commentPage.getTotalElements(), commentPage.getNumber() + 1, commentPage.getTotalPages(), commentPage.getSize());
+            CommentPagination commentPagination = new CommentPagination(commentPage.getContent(), pagination);
+            return generator.getSuccessResult("评论列表获取成功", commentPagination);
+        }
+
+        if (parent != null && !parent.equals("")) {
+            commentPage = commentService.getCommentByParent(parent, pageable);
+            Pagination pagination = new Pagination(commentPage.getTotalElements(), commentPage.getNumber() + 1, commentPage.getTotalPages(), commentPage.getSize());
+            CommentPagination commentPagination = new CommentPagination(commentPage.getContent(), pagination);
+            return generator.getSuccessResult("评论列表获取成功", commentPagination);
         }
 
         if (author != null && !author.equals("")) {
@@ -190,7 +204,7 @@ public class CommentController {
      */
     @PostMapping("/{id}/like")
     public RestResult likeComment(@RequestBody String like, @PathVariable("id") String id) {
-        if (like.equals("true")) {
+        if (like.substring(8, 12).equals("true")) {
             Comment comment = commentService.getCommentById(id);
             comment.setUps(comment.getUps() + 1);
             commentService.createComment(comment);
