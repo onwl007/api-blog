@@ -47,7 +47,7 @@ public class ArticleRepositoryTest {
         article.setContent("王先森007是最帅的，宇宙第一帅");
         article.setDescription("好帅");
         article.setKeywords("真帅");
-        article.setCreatedAt(new Date());
+        article.setCreateAt(new Date());
         //category.setName("code");
         //category.setCreateAt(new Date());
         //category.setDescription("代码");
@@ -89,7 +89,7 @@ public class ArticleRepositoryTest {
     @Test
     public void testFindAllOrderByCreateAtDesc(){
         Gson gson=new Gson();
-        List<Article> articles=articleRepository.findAllByOrderByCreatedAtDesc();
+        List<Article> articles=articleRepository.findAllByOrderByCreateAtDesc();
         System.out.println(gson.toJson(articles));
     }
 
