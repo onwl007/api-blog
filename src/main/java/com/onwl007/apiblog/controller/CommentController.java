@@ -59,8 +59,18 @@ public class CommentController {
 
 
     /**
-     * 获取全部评论
+     * 查询留言和评论
      *
+     * @param pageSize
+     * @param page
+     * @param state
+     * @param type     0 文章评论 | 1 留言
+     * @param author   作者
+     * @param article  文章
+     * @param keyword  关键字
+     * @param parent   父评论
+     * @param order    排序 -1 降序 | 其他 升序
+     * @param sortBy   按什么排序 createdAt 最新 | ups 最热
      * @return
      */
     @GetMapping
@@ -87,6 +97,13 @@ public class CommentController {
             Pagination pagination = new Pagination(commentPage.getTotalElements(), commentPage.getNumber() + 1, commentPage.getTotalPages(), commentPage.getSize());
             CommentPagination commentPagination = new CommentPagination(commentPage.getContent(), pagination);
             return generator.getSuccessResult("评论列表获取成功", commentPagination);
+        }
+
+        if (type != null && type == 1) {
+            commentPage = commentService.getCommentByType(type, pageable);
+            Pagination pagination = new Pagination(commentPage.getTotalElements(), commentPage.getNumber() + 1, commentPage.getTotalPages(), commentPage.getSize());
+            CommentPagination commentPagination = new CommentPagination(commentPage.getContent(), pagination);
+            return generator.getSuccessResult("站内留言列表获取成功", commentPagination);
         }
 
         if (parent != null && !parent.equals("")) {
