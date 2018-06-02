@@ -41,7 +41,7 @@ public class Article {
     //永久链接
     private String permalink;
     //创建日期
-    private Date createdAt;
+    private Date createAt;
     //更新日期
     private Date updateAt;
     //发布日期
@@ -137,12 +137,12 @@ public class Article {
         this.permalink = permalink;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreateAt(Date createdAt) {
+        this.createAt = createdAt;
     }
 
     public Date getUpdateAt() {
