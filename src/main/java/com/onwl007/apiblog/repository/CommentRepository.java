@@ -47,5 +47,14 @@ public interface CommentRepository extends MongoRepository<Comment, String> {
      * @param pageable
      * @return
      */
-    Page<Comment> findAllByArticle_Id(String id, Pageable pageable);
+    Page<Comment> findAllByArticle_IdAndParentIsNull(String id, Pageable pageable);
+
+    /**
+     * 查询子评论
+     *
+     * @param id
+     * @param pageable
+     * @return
+     */
+    Page<Comment> findAllByParent_Id(String id, Pageable pageable);
 }
