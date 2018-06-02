@@ -29,7 +29,7 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
      *
      * @return
      */
-    List<Article> findAllByOrderByCreatedAtDesc();
+    List<Article> findAllByOrderByCreateAtDesc();
 
     /**
      * 根据文章id查询为文章
