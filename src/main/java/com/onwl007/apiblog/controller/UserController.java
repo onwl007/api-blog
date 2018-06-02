@@ -1,14 +1,20 @@
 package com.onwl007.apiblog.controller;
 
+import com.onwl007.apiblog.domain.Comment;
 import com.onwl007.apiblog.domain.RestResult;
 import com.onwl007.apiblog.domain.User;
+import com.onwl007.apiblog.repository.CommentRepository;
 import com.onwl007.apiblog.service.UserService;
 import com.onwl007.apiblog.util.ResultGenerator;
+import com.onwl007.apiblog.vo.GuestUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author onwl007@126.com
@@ -21,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private ResultGenerator generator;
@@ -61,6 +70,16 @@ public class UserController {
      */
     @GetMapping("/guests")
     public RestResult getGuests() {
+        List<Comment> commentList = commentRepository.findAllByType(1);
+        List<User> userList = new ArrayList<User>();
+        for (int i = 0; i < commentList.size(); i++) {
+            User user = commentList.get(i).getAuthor();
+            userList.add(user);
+        }
+        GuestUserVO guestUserVO = new GuestUserVO(userList, userList.size());
+        if (guestUserVO != null && !guestUserVO.equals("")) {
+            return generator.getSuccessResult("查询站内留言用户列表成功", guestUserVO);
+        }
         return generator.getFailResult("查询站内留言用户列表失败", null);
     }
 }
