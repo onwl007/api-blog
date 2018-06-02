@@ -8,10 +8,7 @@ import com.onwl007.apiblog.service.UserService;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.vo.GuestUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +18,7 @@ import java.util.List;
  * @date 2018/5/1 14:10
  * @desc
  */
+@CrossOrigin
 @RestController
 @RequestMapping("users")
 public class UserController {
