@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -68,11 +69,13 @@ public class UserController {
      */
     @GetMapping("/guests")
     public RestResult getGuests() {
-        List<Comment> commentList = commentRepository.findAllByType(1);
-        List<User> userList = new ArrayList<User>();
-        for (int i = 0; i < commentList.size(); i++) {
-            User user = commentList.get(i).getAuthor();
-            userList.add(user);
+        List<User> userList = userService.getUsersGuest();
+        for (int i = 0; i < userList.size(); i++) {
+            for (int j = userList.size() - 1; j > i; j--) {
+                if (userList.get(j).getName().equals(userList.get(i).getName())) {
+                    userList.remove(j);
+                }
+            }
         }
         GuestUserVO guestUserVO = new GuestUserVO(userList, userList.size());
         if (guestUserVO != null && !guestUserVO.equals("")) {
