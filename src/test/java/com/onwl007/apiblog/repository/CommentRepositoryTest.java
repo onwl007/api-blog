@@ -26,7 +26,7 @@ public class CommentRepositoryTest {
     @Test
     public void testgetCommentByArticleId(){
         Pageable pageable=new PageRequest(0,10);
-        Page<Comment> comments=commentRepository.findAllByArticle_Id("5b0a275dac807588b40ad379",pageable);
+        Page<Comment> comments=commentRepository.findAllByArticle_IdAndParentIsNull("5b0a275dac807588b40ad379",pageable);
         Gson gson=new Gson();
         System.out.println(gson.toJson(comments));
     }
