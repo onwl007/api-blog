@@ -43,7 +43,7 @@ public class ArticleService {
      * @return
      */
     public List<Article> listArticles() {
-        return articleRepository.findAllByOrderByCreatedAtDesc();
+        return articleRepository.findAllByOrderByCreateAtDesc();
     }
 
     /**
