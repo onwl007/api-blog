@@ -89,7 +89,7 @@ public class SaveData {
                 "直接内存会受到本机总内存大小以及处理器寻址空间的限制，当各个内存区域总和大于物理内存限制，从而导致动态扩展时出现 OutOfMemoryError 异常。\n" +
                 "\n" +
                 "> 参考资料：《深入理解 Java 虚拟机》");
-        article.setCreatedAt(new Date());
+        article.setCreateAt(new Date());
         article.setUpdateAt(new Date());
         article.setDescription("内存模型");
         article.setKeywords("内存");
