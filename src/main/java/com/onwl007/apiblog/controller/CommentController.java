@@ -1,6 +1,5 @@
 package com.onwl007.apiblog.controller;
 
-import com.google.gson.Gson;
 import com.onwl007.apiblog.domain.Article;
 import com.onwl007.apiblog.domain.Comment;
 import com.onwl007.apiblog.domain.RestResult;
@@ -8,7 +7,6 @@ import com.onwl007.apiblog.domain.User;
 import com.onwl007.apiblog.page.CommentPagination;
 import com.onwl007.apiblog.page.Pagination;
 import com.onwl007.apiblog.repository.ArticleRepository;
-import com.onwl007.apiblog.service.ArticleService;
 import com.onwl007.apiblog.service.CommentService;
 import com.onwl007.apiblog.service.UserService;
 import com.onwl007.apiblog.util.CheckUser;
@@ -25,9 +23,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author onwl007@126.com
@@ -202,6 +199,7 @@ public class CommentController {
             commentMeta.setReferer(request.getHeader("Referer"));
             comment.setMeta(commentMeta);
             comment.setContent(content);
+            comment.setCreateAt(new Date());
             comment.setRenderedContent("<p>" + content + "</p>");
             comment.setArticle(article);
             comment.setParent(commentService.getCommentById(parent));
