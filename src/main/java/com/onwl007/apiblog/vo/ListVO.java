@@ -9,27 +9,30 @@ import java.util.List;
  */
 public class ListVO {
 
-    private int year;
-    private List<MonthsVO> list;
+    private String year;
+    private List<MonthsVO> months;
 
-    public ListVO(int year, List<MonthsVO> list) {
-        this.year = year;
-        this.list = list;
+    public ListVO() {
     }
 
-    public int getYear() {
+    public ListVO(String year, List<MonthsVO> months) {
+        this.year = year;
+        this.months = months;
+    }
+
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    public List<MonthsVO> getList() {
-        return list;
+    public List<MonthsVO> getMonths() {
+        return months;
     }
 
-    public void setList(List<MonthsVO> list) {
-        this.list = list;
+    public void setMonths(List<MonthsVO> months) {
+        this.months = months;
     }
 }
