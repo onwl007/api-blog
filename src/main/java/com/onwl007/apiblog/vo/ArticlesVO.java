@@ -16,12 +16,15 @@ public class ArticlesVO {
     //文章标题
     private String title;
     //创建时间
-    private Date createdAt;
+    private Date createAt;
 
-    public ArticlesVO(String id, String title, Date createdAt) {
+    public ArticlesVO() {
+    }
+
+    public ArticlesVO(String id, String title, Date createAt) {
         this.id = id;
         this.title = title;
-        this.createdAt = createdAt;
+        this.createAt = createAt;
     }
 
     public String getId() {
@@ -40,11 +43,11 @@ public class ArticlesVO {
         this.title = title;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 }
