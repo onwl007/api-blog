@@ -12,6 +12,9 @@ public class ArchivesVO {
     private int count;
     private List<ListVO> list;
 
+    public ArchivesVO() {
+    }
+
     public ArchivesVO(int count, List<ListVO> list) {
         this.count = count;
         this.list = list;
