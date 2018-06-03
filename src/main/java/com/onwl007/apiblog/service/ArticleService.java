@@ -1,12 +1,8 @@
 package com.onwl007.apiblog.service;
 
-import com.mongodb.AggregationOutput;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.client.AggregateIterable;
-import com.mongodb.client.MongoCollection;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.util.JSON;
 import org.bson.Document;
 import com.onwl007.apiblog.domain.Article;
 import com.onwl007.apiblog.repository.ArticleRepository;
@@ -15,14 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author onwl007@126.com
@@ -124,101 +116,39 @@ public class ArticleService {
     }
 
     /**
-     * 查询归档文章
+     * mongodb 聚合查询
+     * 文章归档
+     * 按照时间分组，统计年份，月份都有哪些文章
+     *
+     * @return
      */
-    public void archivesArticle() {
-
-        /**String matchStr = "{ $match: { state: 1 } }";
-        BasicDBObject match = (BasicDBObject) JSON.parse(matchStr);
-        String sortStr = "{ $sort: { createAt: 1 } }";
-        BasicDBObject sort = (BasicDBObject) JSON.parse(sortStr);
-        String projectStr = "{$project:{year:{$year:'$createAt'},month:{$month:'$createAt'},title:1,createAt:1}}";
-        BasicDBObject project = (BasicDBObject) JSON.parse(projectStr);
-        String groupStr = "{$group:{_id:{year:'$year',month:'$month'}},articles:{$push:{title:'$title',_id:'$_id',createAt:'createAt'}}}}";
-        BasicDBObject group = (BasicDBObject) JSON.parse(groupStr);
-        List<BasicDBObject> list = new ArrayList<BasicDBObject>();
-        list.add(match);
-        list.add(sort);
-        list.add(project);
-        list.add(group);*/
-        /**AggregationOutput output= mongoTemplate.getDb().getCollection("article");
-        Iterator<DBObject> iter= output.results().iterator();
-        DBObject result=null;
-        while (iter.hasNext()){
-            result=iter.next();
-            break;
-        }*/
-        //System.out.println("******   "+result.toString());
-
-        /**AggregateIterable<org.bson.Document> docIterable = mongoTemplate.getCollection("article").aggregate(list);
-        MongoCursor<org.bson.Document> cursor = docIterable.iterator();
-        while (cursor.hasNext()) {
-            org.bson.Document doc = cursor.next();
-            System.out.println(doc.getInteger("count"));
-        }
-        System.out.println(docIterable.toString());*/
-
-        /**String matchStr = "{ $match: { state: 1 } }";
-        DBObject match = (DBObject) JSON.parse(matchStr);
-        String sortStr = "{ $sort: { createAt: 1 } }";
-        DBObject sort = (DBObject) JSON.parse(sortStr);
-        String projectStr = "{$project:{year:{$year:'$createAt'},month:{$month:'$createAt'},title:1,createAt:1}}";
-        DBObject project = (DBObject) JSON.parse(projectStr);
-        String groupStr = "{$group:{_id:{year:'$year',month:'$month'}},articles:{$push:{title:'$title',_id:'$_id',createAt:'createAt'}}}}";
-        DBObject group = (DBObject) JSON.parse(groupStr);
-        List<DBObject> list = new ArrayList<DBObject>();
-        list.add(match);
-        list.add(sort);
-        list.add(project);
-        list.add(group);
-        AggregationOutput output=mongoTemplate.aggregate()
-        Iterable<DBObject> map=output.results();
-        for (DBObject dbObject:map){
-            Map<String,Object> resultmap= (Map<String, Object>) dbObject.get("_id");
-            resultmap.get("_id");
-            System.out.println("******    "+resultmap.get("_id"));
-        }*/
-
-        /**AggregateIterable<org.bson.Document> output=mongoTemplate.getCollection("article").aggregate(Arrays.asList(
-                new BasicDBObject("$match",new BasicDBObject("state",1)),
-                new BasicDBObject("$sort",new BasicDBObject("createAt",1)),
-                new BasicDBObject("$project",new BasicDBObject("year",new BasicDBObject("$year","'$createAt'"))
-                        .append("month",new BasicDBObject("$month","'$createAt'"))
-                        .append("title",1)
-                        .append("createAt",1)),
-                new BasicDBObject("$group",new BasicDBObject("_id",new BasicDBObject("year","'$year'")
-                        .append("month","'$month'"))
-                        .append("article",new BasicDBObject("$push",new BasicDBObject("title","'$title'")
-                                .append("_id","'$_id'")
-                                .append("createAt","'$createAt'"))))
-        ));
-        System.out.println("*****"+output.toString());
-        for (org.bson.Document dbobject:output){
-            System.out.println(dbobject.toJson());
-        }*/
-
+    public List<JsonObject> archivesArticle() {
         List<Document> pipeline = new ArrayList<Document>();
-        Document match = new Document("$match",new Document("state",1));
+        Document match = new Document("$match", new Document("state", 1));
         pipeline.add(match);
-        Document sort=new Document("$sort",new Document("createAt",1));
+        Document sort = new Document("$sort", new Document("createAt", 1));
         pipeline.add(sort);
-        Document project=new Document("$project",new Document("year",new Document("$year","$createAt"))
-                .append("month",new Document("$month","$createAt"))
-                .append("title",1)
-                .append("createAt",1));
+        Document project = new Document("$project", new Document("year", new Document("$year", "$createAt"))
+                .append("month", new Document("$month", "$createAt"))
+                .append("title", 1)
+                .append("createAt", 1));
         pipeline.add(project);
-        Document group=new Document("$group",new Document("_id",new Document("year","$year")
-                .append("month","$month"))
-                .append("article",new Document("$push",new Document("title","$title")
-                        .append("_id","$_id")
-                        .append("createAt","$createAt"))));
+        Document group = new Document("$group", new Document("_id", new Document("year", "$year")
+                .append("month", "$month"))
+                .append("article", new Document("$push", new Document("title", "$title")
+                        .append("_id", "$_id")
+                        .append("createAt", "$createAt"))));
         pipeline.add(group);
-        MongoCursor<Document> cursor=mongoTemplate.getCollection("article").aggregate(pipeline).allowDiskUse(true).iterator();
-        while (cursor.hasNext()){
-            Document item=cursor.next();
-            System.out.println(item.toJson());
+        MongoCursor<Document> cursor = mongoTemplate.getCollection("article").aggregate(pipeline).allowDiskUse(true).iterator();
+        List<JsonObject> list = new ArrayList<>();
+        while (cursor.hasNext()) {
+            Document item = cursor.next();
+            String json = item.toJson();
+            JsonObject data = new JsonParser().parse(json).getAsJsonObject();
+            list.add(data);
         }
         cursor.close();
+        return list;
     }
 
 }
