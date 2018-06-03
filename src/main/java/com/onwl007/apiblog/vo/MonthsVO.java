@@ -9,21 +9,24 @@ import java.util.List;
  */
 public class MonthsVO {
 
-    private int month;
+    private String month;
     private String monthStr;
     private List<ArticlesVO> articles;
 
-    public MonthsVO(int month, String monthStr, List<ArticlesVO> articles) {
+    public MonthsVO() {
+    }
+
+    public MonthsVO(String month, String monthStr, List<ArticlesVO> articles) {
         this.month = month;
         this.monthStr = monthStr;
         this.articles = articles;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
