@@ -179,6 +179,7 @@ public class CommentController {
         user.setName(name);
         user.setEmail(email);
         user.setSite(site);
+        user.setRole(1);
         boolean isExisted = checkUser.checkAuthor(user);
         if (isExisted) {
             comment.setAuthor(userService.getUserByName(user.getName()));
