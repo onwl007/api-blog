@@ -42,6 +42,7 @@ public class UserController {
     public RestResult getBlogger() {
         User user = userService.getUserByRole(0);
         if (user != null) {
+            user.setPassword(null);
             return generator.getSuccessResult("查询博主成功", user);
         }
         return generator.getFailResult("查询博主失败", user);
