@@ -13,10 +13,9 @@ public interface TokenManager {
      * 创建一个 token 关联指定用户
      *
      * @param userId   指定用户的 ID
-     * @param username 指定用户的 username
      * @return
      */
-    public TokenModel createToken(String userId, String username);
+    public TokenModel createToken(String userId);
 
     /**
      * 检查 token 是否有效
@@ -24,7 +23,7 @@ public interface TokenManager {
      * @param model token
      * @return 是否有效
      */
-    public boolean checkToken(TokenModel model);
+    public boolean checkToken (TokenModel model);
 
     /**
      * 从字符串中解析 token
