@@ -25,6 +25,15 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     Page<Article> findAll(Pageable pageable);
 
     /**
+     * 前台查询已发布的文章
+     *
+     * @param state
+     * @param pageable
+     * @return
+     */
+    Page<Article> findAllByStateEquals(int state, Pageable pageable);
+
+    /**
      * 根据创建时间降序排列
      *
      * @return
