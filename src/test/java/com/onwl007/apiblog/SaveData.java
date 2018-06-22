@@ -92,6 +92,7 @@ public class SaveData {
         article.setCreateAt(new Date());
         article.setUpdateAt(new Date());
         article.setDescription("内存模型");
+        String[] a={"内存","硬盘"};
         article.setKeywords("内存");
         ArticleMeta meta=new ArticleMeta();
         meta.setComments(3);
@@ -123,7 +124,7 @@ public class SaveData {
                 "<p>参考资料：《深入理解 Java 虚拟机》</p>\n" +
                 "</blockquote>\n");
         article.setState(1);
-        article.setTag(tagRepository.findTagByName("JVM"));
+//        article.setTag(tagRepository.findAll());
         article.setThumb("https://static.jooger.me/img/source/20180525/test_1527339217217.jpeg");
         article.setTitle("【深入理解 JVM】之内存区域");
         article.setUpdateAt(new Date());
