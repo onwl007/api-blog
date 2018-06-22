@@ -95,8 +95,16 @@ public class AdminArticleController {
         return generator.getFailResult("文章列表获取失败", articlePage);
     }
 
+    /**
+     * 修改文章
+     *
+     * @param id
+     * @param state
+     * @return
+     * @throws ServiceException
+     */
     @PatchMapping("/articles/{id}")
-    public RestResult publishArticle(@PathVariable("id") String id, @RequestBody Article state) throws ServiceException {
+    public RestResult modifyArticle(@PathVariable("id") String id, @RequestBody Article state) throws ServiceException {
         if (id.equals("")) {
             throw new ServiceException("参数错误");
         }
@@ -105,6 +113,21 @@ public class AdminArticleController {
             article.setState(state.getState());
             articleService.createArticle(article);
             return generator.getSuccessResult("文章更新成功", article);
+        }
+        return generator.getFailResult();
+    }
+
+    /**
+     * 创建文章
+     *
+     * @param article
+     * @return
+     */
+    @PostMapping("/articles")
+    public RestResult publishArticle(@RequestBody Article article) {
+        if (article != null) {
+            articleService.createArticle(article);
+            return generator.getSuccessResult("文章创建成功", article);
         }
         return generator.getFailResult();
     }
