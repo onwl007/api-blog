@@ -46,7 +46,8 @@ public class ArticleRepositoryTest {
         article.setTitle("我最帅123123456765756756");
         article.setContent("王先森007是最帅的，宇宙第一帅");
         article.setDescription("好帅");
-        article.setKeywords("真帅");
+//        String[] a={"内存","硬盘"};
+        article.setKeywords("内存");
         article.setCreateAt(new Date());
         //category.setName("code");
         //category.setCreateAt(new Date());
@@ -63,12 +64,27 @@ public class ArticleRepositoryTest {
         meta.setUps(520);
         article.setMeta(meta);
         article.setCategory(category);
-        article.setTag(tag);
+//        article.setTag(tag);
         articleRepository.save(article);
         Article shuai=articleRepository.findByTitle("我最帅");
         Gson gson=new Gson();
         System.out.println(gson.toJson(shuai));
     }
+
+//    @Test
+//    public void testSaveArticle(){
+//        Article article=articleRepository.findByTitle("【深入理解 JVM】之内存区域");
+//        String[] a={"内存","硬盘"};
+//        article.setKeywords(a);
+//        String[] t={"5b1b775cb37436167a4d0d63","5b1b775cb37436167a4d0d64"};
+//        List<Tag> list=tagRepository.findAll();
+//        Tag[] tags=new Tag[2];
+//        for (int i=0;i<list.size();i++){
+//            tags[i]=list.get(i);
+//        }
+//        article.setTag(t);
+//        articleRepository.save(article);
+//    }
 
     @Test
     public void testFindArticleByTitleLike(){
