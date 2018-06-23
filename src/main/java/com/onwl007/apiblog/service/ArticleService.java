@@ -3,6 +3,8 @@ package com.onwl007.apiblog.service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mongodb.client.MongoCursor;
+import com.onwl007.apiblog.domain.Tag;
+import com.onwl007.apiblog.repository.TagRepository;
 import org.bson.Document;
 import com.onwl007.apiblog.domain.Article;
 import com.onwl007.apiblog.repository.ArticleRepository;
@@ -29,6 +31,9 @@ public class ArticleService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    TagRepository tagRepository;
 
     /**
      * 分页查询
@@ -77,7 +82,10 @@ public class ArticleService {
      * @return
      */
     public Page<Article> getArticleByTagId(String id, Pageable pageable) {
-        return articleRepository.findAllByTag_Id(id, pageable);
+        Tag tag=tagRepository.findTagById(id);
+        Tag[] tags=new Tag[1];
+        tags[0]=tag;
+        return articleRepository.findAllByTagIn(tags, pageable);
     }
 
     /**
