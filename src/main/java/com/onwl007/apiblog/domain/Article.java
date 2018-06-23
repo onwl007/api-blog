@@ -19,7 +19,7 @@ public class Article {
     //文章标题
     private String title;
     //文章关键字 (FOR SEO)
-    private String keywords;
+    private String[] keywords;
     //文章摘要 (FOR SEO)
     private String description;
     //文章原始 Markdown 内容
@@ -31,9 +31,9 @@ public class Article {
     @CascadeSave
     private Category category;
     //标签
-    @DBRef
-    @CascadeSave
-    private Tag tag;
+//    @DBRef
+//    @CascadeSave
+    private Tag[] tag;
     //缩略图
     private String thumb;
     //文章状态 (0 草稿 | 1 已发布)
@@ -65,11 +65,12 @@ public class Article {
         this.title = title;
     }
 
-    public String getKeywords() {
+
+    public String[] getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(String keywords) {
+    public void setKeywords(String[] keywords) {
         this.keywords = keywords;
     }
 
@@ -105,11 +106,11 @@ public class Article {
         this.category = category;
     }
 
-    public Tag getTag() {
+    public Tag[] getTag() {
         return tag;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(Tag[] tag) {
         this.tag = tag;
     }
 
