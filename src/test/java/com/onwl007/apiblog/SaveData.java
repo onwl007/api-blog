@@ -93,7 +93,7 @@ public class SaveData {
         article.setUpdateAt(new Date());
         article.setDescription("内存模型");
         String[] a={"内存","硬盘"};
-        article.setKeywords("内存");
+//        article.setKeywords("内存");
         ArticleMeta meta=new ArticleMeta();
         meta.setComments(3);
         meta.setUps(2);
