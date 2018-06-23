@@ -2,6 +2,7 @@ package com.onwl007.apiblog.repository;
 
 
 import com.onwl007.apiblog.domain.Article;
+import com.onwl007.apiblog.domain.Tag;
 import com.onwl007.apiblog.page.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,12 +66,13 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     Page<Article> findArticleByTitleLike(String key, Pageable pageable);
 
     /**
-     * 查询关联了同一个标签的所有的文章
+     * 查询关联了同一个标签的所有文章
      *
-     * @param id
+     * @param tag
+     * @param pageable
      * @return
      */
-    Page<Article> findAllByTag_Id(String id, Pageable pageable);
+    Page<Article> findAllByTagIn(Tag[] tag, Pageable pageable);
 
     /**
      * 查询关联了同一个分类下的所有文章
