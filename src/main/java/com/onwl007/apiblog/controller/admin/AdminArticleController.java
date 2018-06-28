@@ -116,7 +116,7 @@ public class AdminArticleController {
             return generator.getSuccessResult("文章发布成功", article);
         }
         if (article.getTitle() != null) {
-            Category category=article.getCategory();
+            Category category = article.getCategory();
             category.setExtend(null);
             blog.setCategory(category);
             blog.setKeywords(article.getKeywords());
@@ -166,5 +166,20 @@ public class AdminArticleController {
             return generator.getSuccessResult("文章详情获取成功", article);
         }
         return generator.getFailResult();
+    }
+
+    /**
+     * 删除文章
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/articles/{id}")
+    public RestResult deleteArticle(@PathVariable String id) {
+        if (id != null && !id.equals("")) {
+            articleService.deleteArticle(id);
+            return generator.getSuccessResult("删除文章成功");
+        }
+        return generator.getFailResult("删除文章失败", null);
     }
 }
