@@ -6,10 +6,7 @@ import com.onwl007.apiblog.domain.Tag;
 import com.onwl007.apiblog.service.TagService;
 import com.onwl007.apiblog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -48,5 +45,20 @@ public class AdminTagController {
             return generator.getSuccessResult("获取全部标签成功", tags);
         }
         return generator.getFailResult();
+    }
+
+    /**
+     * 删除标签
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/tags/{id}")
+    public RestResult deleteTag(@PathVariable String id) {
+        if (id != null && !id.equals("")) {
+            tagService.deleteById(id);
+            return generator.getSuccessResult("删除标签成功");
+        }
+        return generator.getFailResult("删除标签失败", null);
     }
 }
