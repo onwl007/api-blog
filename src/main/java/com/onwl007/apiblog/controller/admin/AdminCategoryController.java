@@ -7,6 +7,7 @@ import com.onwl007.apiblog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -43,6 +44,30 @@ public class AdminCategoryController {
             return generator.getSuccessResult("获取全部分类成功", list);
         }
         return generator.getFailResult();
+    }
+
+    /**
+     * 创建分类
+     *
+     * @param category
+     * @return
+     */
+    @PostMapping("/categories")
+    public RestResult addCategory(@RequestBody Category category) {
+        if (category != null) {
+            categoryService.createCategory(category);
+            return generator.getSuccessResult("创建分类成功", category);
+        }
+        return generator.getFailResult("创建分类失败", null);
+    }
+
+    @PatchMapping("/categories/{id}")
+    public RestResult modifyCategory(@PathVariable String id, @RequestBody Category category) {
+        if (category != null) {
+            categoryService.createCategory(category);
+            return generator.getSuccessResult("修改分类成功", category);
+        }
+        return generator.getFailResult("修改分类失败", null);
     }
 
     /**
