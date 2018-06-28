@@ -102,13 +102,9 @@ public class AdminArticleController {
      * @param id
      * @param article
      * @return
-     * @throws ServiceException
      */
     @PatchMapping("/articles/{id}")
-    public RestResult modifyArticle(@PathVariable("id") String id, @RequestBody Article article) throws ServiceException {
-        if (id.equals("")) {
-            throw new ServiceException("参数错误");
-        }
+    public RestResult modifyArticle(@PathVariable("id") String id, @RequestBody Article article) {
         Article blog = articleService.getArticleById(id);
         if (article.getTitle() == null) {
             blog.setState(article.getState());
