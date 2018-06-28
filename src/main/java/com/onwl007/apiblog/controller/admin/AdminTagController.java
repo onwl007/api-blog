@@ -16,6 +16,7 @@ import java.util.List;
  * @date 2018/6/10 20:15
  * @desc 后台查询 tag
  */
+@CrossOrigin
 @RestController
 @RequestMapping("backend")
 public class AdminTagController {
@@ -45,6 +46,36 @@ public class AdminTagController {
             return generator.getSuccessResult("获取全部标签成功", tags);
         }
         return generator.getFailResult();
+    }
+
+    /**
+     * 创建标签
+     *
+     * @param tag
+     * @return
+     */
+    @PostMapping("/tags")
+    public RestResult addTag(@RequestBody Tag tag) {
+        if (tag != null) {
+            tagService.createTag(tag);
+            return generator.getSuccessResult("创建标签成功", tag);
+        }
+        return generator.getFailResult("创建标签失败", null);
+    }
+
+    /**
+     * 修改标签
+     *
+     * @param tag
+     * @return
+     */
+    @PatchMapping("/tags/{id}")
+    public RestResult modifyTag(@RequestBody Tag tag) {
+        if (tag != null) {
+            tagService.createTag(tag);
+            return generator.getSuccessResult("修改标签成功", tag);
+        }
+        return generator.getFailResult("修改标签失败", null);
     }
 
     /**
