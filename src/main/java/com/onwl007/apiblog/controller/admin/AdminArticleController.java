@@ -1,6 +1,7 @@
 package com.onwl007.apiblog.controller.admin;
 
 import com.onwl007.apiblog.domain.Article;
+import com.onwl007.apiblog.domain.Category;
 import com.onwl007.apiblog.domain.RestResult;
 import com.onwl007.apiblog.page.ArticlePagination;
 import com.onwl007.apiblog.page.Pagination;
@@ -99,19 +100,39 @@ public class AdminArticleController {
      * 修改文章
      *
      * @param id
-     * @param state
+     * @param article
      * @return
      * @throws ServiceException
      */
     @PatchMapping("/articles/{id}")
-    public RestResult modifyArticle(@PathVariable("id") String id, @RequestBody Article state) throws ServiceException {
+    public RestResult modifyArticle(@PathVariable("id") String id, @RequestBody Article article) throws ServiceException {
         if (id.equals("")) {
             throw new ServiceException("参数错误");
         }
-        if (state != null) {
-            Article article = articleService.getArticleById(id);
-            article.setState(state.getState());
-            articleService.createArticle(article);
+        Article blog = articleService.getArticleById(id);
+        if (article.getTitle() == null) {
+            blog.setState(article.getState());
+            articleService.createArticle(blog);
+            return generator.getSuccessResult("文章发布成功", article);
+        }
+        if (article.getTitle() != null) {
+            Category category=article.getCategory();
+            category.setExtend(null);
+            blog.setCategory(category);
+            blog.setKeywords(article.getKeywords());
+            blog.setState(article.getState());
+            blog.setCreateAt(article.getCreateAt());
+            blog.setMeta(article.getMeta());
+            blog.setUpdateAt(article.getUpdateAt());
+            blog.setTitle(article.getTitle());
+            blog.setThumb(article.getThumb());
+            blog.setRenderedContent(article.getRenderedContent());
+            blog.setPublishAt(article.getPublishAt());
+            blog.setPermalink(article.getPermalink());
+            blog.setDescription(article.getDescription());
+            blog.setContent(article.getContent());
+            blog.setTag(article.getTag());
+            articleService.createArticle(blog);
             return generator.getSuccessResult("文章更新成功", article);
         }
         return generator.getFailResult();
