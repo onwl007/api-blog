@@ -5,10 +5,7 @@ import com.onwl007.apiblog.domain.RestResult;
 import com.onwl007.apiblog.service.CategoryService;
 import com.onwl007.apiblog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,11 +24,23 @@ public class AdminCategoryController {
     @Autowired
     private ResultGenerator generator;
 
+    /**
+     * 查询分类
+     *
+     * @param keyword
+     * @return
+     */
     @GetMapping("/categories")
-    public RestResult listCategories(){
-        List<Category> list=categoryService.listCategory();
-        if (list!=null && list.size()>0){
-            return generator.getSuccessResult("获取全部分类成功",list);
+    public RestResult listCategories(@RequestParam(value = "keyword", required = false) String keyword) {
+
+        if (keyword != null && !keyword.equals("")) {
+            Category category = categoryService.getCategortByName(keyword);
+            return generator.getSuccessResult("查询分类成功", category);
+        }
+
+        List<Category> list = categoryService.listCategory();
+        if (list != null && list.size() > 0) {
+            return generator.getSuccessResult("获取全部分类成功", list);
         }
         return generator.getFailResult();
     }
