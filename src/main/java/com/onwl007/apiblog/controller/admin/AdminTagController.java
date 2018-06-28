@@ -8,6 +8,7 @@ import com.onwl007.apiblog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +29,20 @@ public class AdminTagController {
     @Autowired
     private ResultGenerator generator;
 
+    /**
+     * 查询标签列表
+     *
+     * @param keyword
+     * @return
+     */
     @GetMapping("/tags")
-    public RestResult listTag(HttpServletRequest request) {
-        System.out.println(request.getHeader("Cookie"));
+    public RestResult listTag(@RequestParam(value = "keyword", required = false) String keyword) {
+
+        if (keyword != null && !keyword.equals("")) {
+            Tag tag = tagService.getTagByName(keyword);
+            return generator.getSuccessResult("查询标签成功", tag);
+        }
+
         List<Tag> tags = tagService.listTags();
         if (tags != null && tags.size() > 0) {
             return generator.getSuccessResult("获取全部标签成功", tags);
