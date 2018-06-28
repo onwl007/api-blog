@@ -44,4 +44,19 @@ public class AdminCategoryController {
         }
         return generator.getFailResult();
     }
+
+    /**
+     * 删除分类
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/categories/{id}")
+    public RestResult deleteCategory(@PathVariable String id) {
+        if (id != null && !id.equals("")) {
+            categoryService.deleteCategory(id);
+            return generator.getSuccessResult("删除分类成功");
+        }
+        return generator.getFailResult("删除分类失败", null);
+    }
 }
