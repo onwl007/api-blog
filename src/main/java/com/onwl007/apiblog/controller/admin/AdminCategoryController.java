@@ -72,12 +72,15 @@ public class AdminCategoryController {
      * 修改分类
      *
      * @param id
-     * @param category
+     * @param modify
      * @return
      */
     @PatchMapping("/categories/{id}")
-    public RestResult modifyCategory(@PathVariable String id, @RequestBody Category category) {
-        if (category != null) {
+    public RestResult modifyCategory(@PathVariable String id, @RequestBody Category modify) {
+        Category category=categoryService.getCategoryById(id);
+        if (modify != null && category!=null) {
+            category.setName(modify.getName());
+            category.setDescription(modify.getDescription());
             category.setUpdateAt(new Date());
             categoryService.createCategory(category);
             return generator.getSuccessResult("修改分类成功", category);
