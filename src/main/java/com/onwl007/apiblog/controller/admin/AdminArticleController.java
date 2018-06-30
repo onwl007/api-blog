@@ -134,7 +134,8 @@ public class AdminArticleController {
      * 创建文章
      *
      * @param article
-     * @return
+     * @return 创建文章时报400的错误是因为分类和标签都是和文章关联了，分类已经创建，写文章时选择分类，然后保存时，
+     * 因为这个分类已经存在，程序又想着去创建，所以保存新建的文章失败，选择标签时也时因为这样。
      */
     @PostMapping("/articles")
     public RestResult publishArticle(@RequestBody Article article) {
