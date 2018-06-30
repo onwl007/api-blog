@@ -41,10 +41,7 @@ public class AdminCategoryController {
         }
 
         List<Category> list = categoryService.listCategory();
-        if (list != null && list.size() > 0) {
-            return generator.getSuccessResult("获取全部分类成功", list);
-        }
-        return generator.getFailResult();
+        return generator.getSuccessResult("获取全部分类成功", list);
     }
 
     /**
