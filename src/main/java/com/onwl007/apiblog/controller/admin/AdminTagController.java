@@ -73,12 +73,15 @@ public class AdminTagController {
     /**
      * 修改标签
      *
-     * @param tag
+     * @param modify
      * @return
      */
     @PatchMapping("/tags/{id}")
-    public RestResult modifyTag(@RequestBody Tag tag) {
-        if (tag != null) {
+    public RestResult modifyTag(@PathVariable String id, @RequestBody Tag modify) {
+        Tag tag = tagService.getTagById(id);
+        if (tag != null && modify != null) {
+            tag.setName(modify.getName());
+            tag.setDescription(modify.getDescription());
             tag.setUpdateAt(new Date());
             tagService.createTag(tag);
             return generator.getSuccessResult("修改标签成功", tag);
