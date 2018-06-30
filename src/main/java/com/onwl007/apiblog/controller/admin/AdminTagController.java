@@ -43,10 +43,7 @@ public class AdminTagController {
         }
 
         List<Tag> tags = tagService.listTags();
-        if (tags != null && tags.size() > 0) {
-            return generator.getSuccessResult("获取全部标签成功", tags);
-        }
-        return generator.getFailResult();
+        return generator.getSuccessResult("获取全部标签成功", tags);
     }
 
     /**
