@@ -64,4 +64,18 @@ public class CategoryService {
     public void deleteCategory(String id) {
         categoryRepository.deleteById(id);
     }
+
+    /**
+     * 创建分类时检查是否已经存在该分类
+     *
+     * @param name
+     * @return
+     */
+    public Boolean isExistCategory(String name) {
+        Category category = categoryRepository.findCategoryByName(name);
+        if (category != null) {
+            return true;
+        }
+        return false;
+    }
 }
