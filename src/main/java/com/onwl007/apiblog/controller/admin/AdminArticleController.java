@@ -86,14 +86,10 @@ public class AdminArticleController {
             return generator.getSuccessResult("查询文章列表成功", articlePagination);
         }
 
-        if (tag == null && category == null && keyword == null) {
-            articlePage = articleService.pageArticles(pageable);
-            Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
-            ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
-            return generator.getSuccessResult("文章类别获取成功", articlePagination);
-        }
-
-        return generator.getFailResult("文章列表获取失败", articlePage);
+        articlePage = articleService.pageArticles(pageable);
+        Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
+        ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
+        return generator.getSuccessResult("文章类别获取成功", articlePagination);
     }
 
     /**
