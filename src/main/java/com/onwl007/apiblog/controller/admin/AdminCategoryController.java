@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,15 +56,29 @@ public class AdminCategoryController {
     @PostMapping("/categories")
     public RestResult addCategory(@RequestBody Category category) {
         if (category != null) {
-            categoryService.createCategory(category);
-            return generator.getSuccessResult("创建分类成功", category);
+            Boolean repeat = categoryService.isExistCategory(category.getName());
+            if (repeat) {
+                return generator.getFailResult("[" + category.getName() + "]已经存在", null);
+            } else {
+                category.setCreateAt(new Date());
+                categoryService.createCategory(category);
+                return generator.getSuccessResult("创建分类成功", category);
+            }
         }
         return generator.getFailResult("创建分类失败", null);
     }
 
+    /**
+     * 修改分类
+     *
+     * @param id
+     * @param category
+     * @return
+     */
     @PatchMapping("/categories/{id}")
     public RestResult modifyCategory(@PathVariable String id, @RequestBody Category category) {
         if (category != null) {
+            category.setUpdateAt(new Date());
             categoryService.createCategory(category);
             return generator.getSuccessResult("修改分类成功", category);
         }
