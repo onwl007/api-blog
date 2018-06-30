@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,8 +58,14 @@ public class AdminTagController {
     @PostMapping("/tags")
     public RestResult addTag(@RequestBody Tag tag) {
         if (tag != null) {
-            tagService.createTag(tag);
-            return generator.getSuccessResult("创建标签成功", tag);
+            Boolean repeat = tagService.isExistTag(tag.getName());
+            if (repeat) {
+                return generator.getFailResult("[" + tag.getName() + "]已经存在", null);
+            } else {
+                tag.setCreateAt(new Date());
+                tagService.createTag(tag);
+                return generator.getSuccessResult("创建标签成功", tag);
+            }
         }
         return generator.getFailResult("创建标签失败", null);
     }
@@ -72,6 +79,7 @@ public class AdminTagController {
     @PatchMapping("/tags/{id}")
     public RestResult modifyTag(@RequestBody Tag tag) {
         if (tag != null) {
+            tag.setUpdateAt(new Date());
             tagService.createTag(tag);
             return generator.getSuccessResult("修改标签成功", tag);
         }
