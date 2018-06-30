@@ -2,6 +2,7 @@ package com.onwl007.apiblog.service;
 
 import com.onwl007.apiblog.domain.Tag;
 import com.onwl007.apiblog.repository.TagRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,5 +64,19 @@ public class TagService {
      */
     public void deleteById(String id) {
         tagRepository.deleteById(id);
+    }
+
+    /**
+     * 创建标签时检查标签是否已经存在
+     *
+     * @param name
+     * @return
+     */
+    public Boolean isExistTag(String name) {
+        Tag tag = tagRepository.findTagByName(name);
+        if (tag != null) {
+            return true;
+        }
+        return false;
     }
 }
