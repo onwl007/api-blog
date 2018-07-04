@@ -11,6 +11,7 @@ import com.onwl007.apiblog.service.TagService;
 import com.onwl007.apiblog.util.MongoUtil;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.util.ServiceException;
+import com.onwl007.apiblog.vo.ArticleMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,7 +55,7 @@ public class AdminArticleController {
         Pageable pageable = new PageRequest(page - 1, pageSize);
 
         if (keyword != null && !keyword.equals("")) {
-            articlePage = articleService.getArticleByTitleLike(keyword, pageable);
+            articlePage = articleService.getArticleByTitleLike(0, keyword, pageable);
             Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
             ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
             return generator.getSuccessResult("文章类别获取成功", articlePagination);
@@ -75,10 +76,10 @@ public class AdminArticleController {
 
         if (category != null && !category.equals("")) {
             if (mongoUtil.isValidObjectId(category)) {
-                articlePage = articleService.getArticleByCategoryId(category, pageable);
+                articlePage = articleService.getArticleByCategoryId(0, category, pageable);
             } else {
                 String categoryId = categoryService.getCategortByName(category).getId();
-                articlePage = articleService.getArticleByCategoryId(categoryId, pageable);
+                articlePage = articleService.getArticleByCategoryId(0, categoryId, pageable);
             }
 
             Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
@@ -86,7 +87,7 @@ public class AdminArticleController {
             return generator.getSuccessResult("查询文章列表成功", articlePagination);
         }
 
-        articlePage = articleService.pageArticles(pageable);
+        articlePage = articleService.pageArticles(0, pageable);
         Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
         ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
         return generator.getSuccessResult("文章类别获取成功", articlePagination);
@@ -140,6 +141,8 @@ public class AdminArticleController {
     @PostMapping("/articles")
     public RestResult publishArticle(@RequestBody Article article) {
         if (article != null) {
+            ArticleMeta meta = new ArticleMeta(0, 0, 0);
+            article.setMeta(meta);
             articleService.createArticle(article);
             return generator.getSuccessResult("文章创建成功", article);
         }
