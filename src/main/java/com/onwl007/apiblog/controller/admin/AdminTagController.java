@@ -60,6 +60,7 @@ public class AdminTagController {
                 return generator.getFailResult("[" + tag.getName() + "]已经存在", null);
             } else {
                 tag.setCreateAt(new Date());
+                tag.setUpdateAt(new Date());
                 tagService.createTag(tag);
                 return generator.getSuccessResult("创建标签成功", tag);
             }
