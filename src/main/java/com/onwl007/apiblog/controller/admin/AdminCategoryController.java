@@ -58,6 +58,7 @@ public class AdminCategoryController {
                 return generator.getFailResult("[" + category.getName() + "]已经存在", null);
             } else {
                 category.setCreateAt(new Date());
+                category.setUpdateAt(new Date());
                 categoryService.createCategory(category);
                 return generator.getSuccessResult("创建分类成功", category);
             }
