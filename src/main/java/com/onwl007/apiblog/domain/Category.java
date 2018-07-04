@@ -21,8 +21,8 @@ public class Category {
     private Date createAt;
     private Date updateAt;
     private int list;
-    @DBRef
-    @CascadeSave
+//    @DBRef
+//    @CascadeSave
     private Extend extend;
 
     public String getId() {
