@@ -13,6 +13,15 @@ public class ArticleMeta {
     //文章评论数
     private int comments;
 
+    public ArticleMeta() {
+    }
+
+    public ArticleMeta(int pvs, int ups, int comments) {
+        this.pvs = pvs;
+        this.ups = ups;
+        this.comments = comments;
+    }
+
     public int getPvs() {
         return pvs;
     }
