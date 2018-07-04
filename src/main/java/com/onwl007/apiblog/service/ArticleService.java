@@ -36,12 +36,16 @@ public class ArticleService {
     TagRepository tagRepository;
 
     /**
-     * 分页查询
+     * 查询文章
      *
+     * @param state    1 前台查询已发布文章 | 0 后台查询所有文章
      * @param pageable
      * @return
      */
-    public Page<Article> pageArticles(Pageable pageable) {
+    public Page<Article> pageArticles(int state, Pageable pageable) {
+        if (state == 1) {
+            return articleRepository.findAllByStateEquals(state, pageable);
+        }
         return articleRepository.findAll(pageable);
     }
 
@@ -67,10 +71,14 @@ public class ArticleService {
      * 对文章标题进行模糊查询
      *
      * @param key
+     * @param state    1 前台查询已发布文章 | 0 后台查询所有文章
      * @param pageable
      * @return
      */
-    public Page<Article> getArticleByTitleLike(String key, Pageable pageable) {
+    public Page<Article> getArticleByTitleLike(int state, String key, Pageable pageable) {
+        if (state == 1) {
+            articleRepository.findArticleByTitleLikeAndStateEquals(key, state, pageable);
+        }
         return articleRepository.findArticleByTitleLike(key, pageable);
     }
 
@@ -82,20 +90,24 @@ public class ArticleService {
      * @return
      */
     public Page<Article> getArticleByTagId(String id, Pageable pageable) {
-        Tag tag=tagRepository.findTagById(id);
-        Tag[] tags=new Tag[1];
-        tags[0]=tag;
+        Tag tag = tagRepository.findTagById(id);
+        Tag[] tags = new Tag[1];
+        tags[0] = tag;
         return articleRepository.findAllByTagIn(tags, pageable);
     }
 
     /**
      * 查询关联同一个分类下的所有文章
      *
-     * @param id
+     * @param id       分类ID
+     * @param state    1 前台查询已发布文章 | 0 后台查询所有文章
      * @param pageable
      * @return
      */
-    public Page<Article> getArticleByCategoryId(String id, Pageable pageable) {
+    public Page<Article> getArticleByCategoryId(int state, String id, Pageable pageable) {
+        if (state == 1) {
+            return articleRepository.findAllByCategory_IdAndStateEquals(id, state, pageable);
+        }
         return articleRepository.findAllByCategory_Id(id, pageable);
     }
 
@@ -116,10 +128,16 @@ public class ArticleService {
     }
 
     /**
+     * 根据文章的发布状态查询热门文章
+     *
      * @param sort
+     * @param state 1 已发布 | 0 未发布
      * @return
      */
-    public List<Article> listHotArticle(Sort sort) {
+    public List<Article> listHotArticle(int state, Sort sort) {
+        if (state == 1) {
+            return articleRepository.findAllByStateEquals(state, sort);
+        }
         return articleRepository.findAll(sort);
     }
 
