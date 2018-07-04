@@ -70,7 +70,7 @@ public class ArticleController {
         Pageable pageable = new PageRequest(page - 1, pageSize);
 
         if (keyword != null && !keyword.equals("")) {
-            articlePage = articleService.getArticleByTitleLike(keyword, pageable);
+            articlePage = articleService.getArticleByTitleLike(1,keyword, pageable);
             Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
             ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
             return generator.getSuccessResult("文章类别获取成功", articlePagination);
@@ -91,10 +91,10 @@ public class ArticleController {
 
         if (category != null && !category.equals("")) {
             if (mongoUtil.isValidObjectId(category)) {
-                articlePage = articleService.getArticleByCategoryId(category, pageable);
+                articlePage = articleService.getArticleByCategoryId(1,category, pageable);
             } else {
                 String categoryId = categoryService.getCategortByName(category).getId();
-                articlePage = articleService.getArticleByCategoryId(categoryId, pageable);
+                articlePage = articleService.getArticleByCategoryId(1,categoryId, pageable);
             }
 
             Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
@@ -103,7 +103,7 @@ public class ArticleController {
         }
 
         if (tag == null && category == null && keyword == null) {
-            articlePage = articleService.pageArticles(pageable);
+            articlePage = articleService.pageArticles(1,pageable);
             Pagination pagination = new Pagination(articlePage.getTotalElements(), articlePage.getNumber() + 1, articlePage.getTotalPages(), articlePage.getSize());
             ArticlePagination articlePagination = new ArticlePagination(articlePage.getContent(), pagination);
             return generator.getSuccessResult("文章类别获取成功", articlePagination);
@@ -162,7 +162,7 @@ public class ArticleController {
     @GetMapping("/hot")
     public RestResult getArticleHot() {
         Sort sort = new Sort(Sort.Direction.DESC, "meta.comments", "meta.ups", "meta.pvs");
-        List<Article> articles = articleService.listHotArticle(sort);
+        List<Article> articles = articleService.listHotArticle(1,sort);
         ArticlePagination articlePagination = new ArticlePagination(articles, null);
         if (articles != null && articles.size() > 0) {
             return generator.getSuccessResult("获取热门文章成功", articlePagination);
