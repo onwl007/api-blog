@@ -13,14 +13,13 @@ public class Option {
     @Id
     private String id;
     private String welcome;
-    private String descriprion;
+    private String description;
     private String hobby;
     private String skill;
     private String music;
     private String location;
     private String company;
     private OptionLinks links;
-    private String musicId;
 
     public String getId() {
         return id;
@@ -38,12 +37,12 @@ public class Option {
         this.welcome = welcome;
     }
 
-    public String getDescriprion() {
-        return descriprion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriprion(String descriprion) {
-        this.descriprion = descriprion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getHobby() {
@@ -92,13 +91,5 @@ public class Option {
 
     public void setLinks(OptionLinks links) {
         this.links = links;
-    }
-
-    public String getMusicId() {
-        return musicId;
-    }
-
-    public void setMusicId(String musicId) {
-        this.musicId = musicId;
     }
 }
