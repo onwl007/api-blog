@@ -12,11 +12,14 @@ import com.onwl007.apiblog.util.MongoUtil;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.util.ServiceException;
 import com.onwl007.apiblog.vo.ArticleMeta;
+import org.markdownj.MarkdownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * @author onwl007@126.com
@@ -102,6 +105,8 @@ public class AdminArticleController {
      */
     @PatchMapping("/articles/{id}")
     public RestResult modifyArticle(@PathVariable("id") String id, @RequestBody Article article) {
+        MarkdownProcessor markdownProcessor = new MarkdownProcessor();
+        String html = markdownProcessor.markdown(article.getContent());
         Article blog = articleService.getArticleById(id);
         if (article.getTitle() == null) {
             blog.setState(article.getState());
@@ -110,11 +115,9 @@ public class AdminArticleController {
         }
         if (article.getTitle() != null) {
             Category category = article.getCategory();
-            category.setExtend(null);
             blog.setCategory(category);
             blog.setKeywords(article.getKeywords());
             blog.setState(article.getState());
-            blog.setCreateAt(article.getCreateAt());
             blog.setMeta(article.getMeta());
             blog.setUpdateAt(article.getUpdateAt());
             blog.setTitle(article.getTitle());
@@ -125,6 +128,7 @@ public class AdminArticleController {
             blog.setDescription(article.getDescription());
             blog.setContent(article.getContent());
             blog.setTag(article.getTag());
+            blog.setRenderedContent(html);
             articleService.createArticle(blog);
             return generator.getSuccessResult("文章更新成功", article);
         }
@@ -140,9 +144,14 @@ public class AdminArticleController {
      */
     @PostMapping("/articles")
     public RestResult publishArticle(@RequestBody Article article) {
+        MarkdownProcessor markdownProcessor = new MarkdownProcessor();
+        String html = markdownProcessor.markdown(article.getContent());
         if (article != null) {
             ArticleMeta meta = new ArticleMeta(0, 0, 0);
             article.setMeta(meta);
+            article.setRenderedContent(html);
+            article.setUpdateAt(new Date());
+            article.setPublishAt(new Date());
             articleService.createArticle(article);
             return generator.getSuccessResult("文章创建成功", article);
         }
