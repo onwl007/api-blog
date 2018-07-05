@@ -35,7 +35,6 @@ public class CategoryRepositoryTest {
         Extend extend=new Extend();
         extend.setKey("icon");
         extend.setValue("code");
-        category.setExtend(extend);
         categoryRepository.save(category);
     }
 
