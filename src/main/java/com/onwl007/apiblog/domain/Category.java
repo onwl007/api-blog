@@ -21,9 +21,6 @@ public class Category {
     private Date createAt;
     private Date updateAt;
     private int list;
-//    @DBRef
-//    @CascadeSave
-    private Extend extend;
 
     public String getId() {
         return id;
@@ -73,11 +70,4 @@ public class Category {
         this.list = list;
     }
 
-    public Extend getExtend() {
-        return extend;
-    }
-
-    public void setExtend(Extend extend) {
-        this.extend = extend;
-    }
 }
