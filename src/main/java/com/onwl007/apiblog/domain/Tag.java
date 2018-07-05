@@ -18,7 +18,6 @@ public class Tag {
     private String description;
     private Date createAt;
     private Date updateAt;
-    private Extend extend;
 
     public String getId() {
         return id;
@@ -58,13 +57,5 @@ public class Tag {
 
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
-    }
-
-    public Extend getExtend() {
-        return extend;
-    }
-
-    public void setExtend(Extend extend) {
-        this.extend = extend;
     }
 }
