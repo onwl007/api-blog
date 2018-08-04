@@ -22,6 +22,7 @@ public class User {
     private String description;
     // 角色 0 管理员 | 1 普通用户 | 2 github用户，不能更改
     private int role;
+    private String role_name;
     // role = 0的时候才有该项
     private String password;
     // 是否被禁言
@@ -151,5 +152,13 @@ public class User {
 
     public void setGithub(Github github) {
         this.github = github;
+    }
+
+    public String getRole_name() {
+        return role_name;
+    }
+
+    public void setRole_name(String role_name) {
+        this.role_name = role_name;
     }
 }
