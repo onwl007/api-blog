@@ -45,7 +45,7 @@ public class JWTTokenUtils {
     private final static long EXPIRATIONTIME = 432_000_000;
 
     //创建Token
-    public String createToken(Authentication authentication, Boolean rememberMe,String userid,String password){
+    public String createToken(Authentication authentication, Boolean rememberMe,String userid){
         String authorities = authentication.getAuthorities().stream()       //获取用户的权限字符串，如 USER,ADMIN
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
