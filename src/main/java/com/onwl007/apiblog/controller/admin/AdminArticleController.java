@@ -12,6 +12,7 @@ import com.onwl007.apiblog.util.MongoUtil;
 import com.onwl007.apiblog.util.ResultGenerator;
 import com.onwl007.apiblog.util.ServiceException;
 import com.onwl007.apiblog.vo.ArticleMeta;
+import com.youbenzi.mdtool.tool.MDTool;
 import org.markdownj.MarkdownProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -144,8 +145,9 @@ public class AdminArticleController {
      */
     @PostMapping("/articles")
     public RestResult publishArticle(@RequestBody Article article) {
-        MarkdownProcessor markdownProcessor = new MarkdownProcessor();
-        String html = markdownProcessor.markdown(article.getContent());
+//        MarkdownProcessor markdownProcessor = new MarkdownProcessor();
+//        String html = markdownProcessor.markdown(article.getContent());
+        String html=MDTool.markdown2Html(article.getContent());
         if (article != null) {
             ArticleMeta meta = new ArticleMeta(0, 0, 0);
             article.setMeta(meta);
