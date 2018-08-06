@@ -37,9 +37,9 @@ public class JWTTokenUtils {
     @PostConstruct
     public void init() {
         this.secretKey = "node-server-secrets";
-        int secondIn1day = 1000 * 60 * 60 * 24;
-        this.tokenValidityInMilliseconds = secondIn1day * 2L;
-        this.tokenValidityInMillisecondsForRememberMe = secondIn1day * 7L;
+        int secondIn1day = 1000 * 60 * 60 ;
+        this.tokenValidityInMilliseconds = secondIn1day;
+        this.tokenValidityInMillisecondsForRememberMe = secondIn1day * 2L;
     }
 
     private final static long EXPIRATIONTIME = 432_000_000;
